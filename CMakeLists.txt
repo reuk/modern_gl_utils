@@ -22,18 +22,14 @@ SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(PkgConfig REQUIRED)
-pkg_search_module(GLFW REQUIRED glfw3)
 
 include_directories(${FREETYPE_INCLUDE_DIRS})
-
-set(GLFW_USE_RETINA true)
 
 add_library(${name} STATIC ${sources})
 
 set(libraries
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARY}
-    ${GLFW_STATIC_LIBRARIES}
     ${FREETYPE_LIBRARIES})
 
 if(UNIX)
