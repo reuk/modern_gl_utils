@@ -1,25 +1,24 @@
 #pragma once
 
+#include "logger.h"
+#include "bindable.h"
+#include "scoped.h"
+
 #include <vector>
 
-#include "logger.h"
-
 template <GLuint type, GLuint mode>
-class BufferObject {
+class BufferObject : public Bindable {
 public:
     BufferObject()
-            : index(0) {
-        LOG_SCOPE;
-        Logger::log("&index: ", &index);
+            : Bindable(0) {
         glGenBuffers(1, &index);
     }
 
     virtual ~BufferObject() {
-        LOG_SCOPE;
         glDeleteBuffers(1, &index);
     }
 
-    BufferObject(const BufferObject &rhs) noexcept : index(0) {
+    BufferObject(const BufferObject &rhs) noexcept : Bindable(0) {
         glGenBuffers(1, &index);
 
         auto size = 0;
@@ -59,7 +58,7 @@ public:
         return *this;
     }
 
-    BufferObject(BufferObject &&rhs) noexcept : index(0) {
+    BufferObject(BufferObject &&rhs) noexcept : Bindable(0) {
         glGenBuffers(1, &index);
 
         auto size = 0;
@@ -99,26 +98,15 @@ public:
         return *this;
     }
 
-    void bind() const {
+    void do_bind(GLuint index) const override {
         glBindBuffer(type, index);
-    }
-
-    static void unbind() {
-        glBindBuffer(type, 0);
     }
 
     template <typename T>
     void data(const std::vector<T> &t) const {
-        bind();
+        auto s = scoped(*this);
         glBufferData(type, t.size() * sizeof(T), t.data(), mode);
     }
-
-    GLuint get_index() const {
-        return index;
-    }
-
-private:
-    GLuint index;
 };
 
 using StaticVBO = BufferObject<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;

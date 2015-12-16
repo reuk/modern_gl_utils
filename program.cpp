@@ -8,7 +8,7 @@
 using namespace std;
 
 Program::Program()
-        : index(glCreateProgram()) {
+        : Usable(glCreateProgram()) {
     if (index == 0) {
         throw runtime_error("failed to create shader program");
     }
@@ -22,16 +22,8 @@ void Program::link() const {
     glLinkProgram(index);
 }
 
-void Program::use() const {
+void Program::do_use(GLuint index) const {
     glUseProgram(index);
-}
-
-void Program::unuse() {
-    glUseProgram(0);
-}
-
-GLuint Program::get_index() const {
-    return index;
 }
 
 GLint Program::get_attrib_location(const std::string &name) const {

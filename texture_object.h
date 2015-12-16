@@ -2,10 +2,12 @@
 
 #include <GL/glew.h>
 
-class TextureObject {
+#include "bindable.h"
+
+class TextureObject: public Bindable {
 public:
     TextureObject()
-            : index(0) {
+            : Bindable(0) {
         glGenTextures(1, &index);
     }
 
@@ -13,16 +15,8 @@ public:
         glDeleteTextures(1, &index);
     }
 
-    void bind() const {
+    void do_bind(GLuint index) const {
         glBindTexture(GL_TEXTURE_2D, index);
-    }
-
-    static void unbind() {
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-
-    GLuint get_index() const {
-        return index;
     }
 
     void image(glm::ivec2 size) const {
@@ -45,7 +39,4 @@ public:
     void parameter(GLenum pname, GLfloat param) const {
         glTexParameterf(GL_TEXTURE_2D, pname, param);
     }
-
-private:
-    GLuint index;
 };

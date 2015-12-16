@@ -3,7 +3,7 @@
 using namespace std;
 
 Sampler::Sampler()
-        : index(0) {
+        : Bindable(0) {
     glGenSamplers(1, &index);
 }
 
@@ -11,16 +11,12 @@ Sampler::~Sampler() {
     glDeleteSamplers(1, &index);
 }
 
+void Sampler::set_where(GLuint w) {
+    where = w;
+}
+
 void Sampler::bind(GLuint where) const {
     glBindSampler(where, index);
-}
-
-void Sampler::unbind() {
-    glBindSampler(GL_TEXTURE_2D, 0);
-}
-
-GLuint Sampler::get_index() const {
-    return index;
 }
 
 void Sampler::parameter_i(GLuint a, GLuint b) const {

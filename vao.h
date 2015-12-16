@@ -1,17 +1,13 @@
 #pragma once
 
+#include "bindable.h"
+
 #include <GL/glew.h>
 
-class VAO {
+class VAO : public Bindable {
 public:
     VAO();
     virtual ~VAO();
 
-    void bind() const;
-    static void unbind();
-
-    GLuint get_index() const;
-
-private:
-    GLuint index;
+    void do_bind(GLuint) const override;
 };

@@ -2,7 +2,7 @@
 #include "logger.h"
 
 VAO::VAO()
-        : index(0) {
+        : Bindable(0) {
     glGenVertexArrays(1, &index);
 }
 
@@ -10,14 +10,6 @@ VAO::~VAO() {
     glDeleteVertexArrays(1, &index);
 }
 
-void VAO::bind() const {
+void VAO::do_bind(GLuint index) const {
     glBindVertexArray(index);
-}
-
-void VAO::unbind() {
-    glBindVertexArray(0);
-}
-
-GLuint VAO::get_index() const {
-    return index;
 }

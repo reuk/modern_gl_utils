@@ -2,11 +2,13 @@
 
 #include <GL/glew.h>
 
+#include "bindable.h"
+
 template <GLuint mode>
-class RenderBuffer {
+class RenderBuffer: public Bindable {
 public:
     RenderBuffer()
-            : index(0) {
+            : Bindable(0) {
         glGenRenderbuffers(1, &index);
     }
 
@@ -14,24 +16,13 @@ public:
         glDeleteRenderbuffers(1, &index);
     }
 
-    void bind() const {
+    void do_bind(GLuint index) const {
         glBindRenderbuffer(GL_RENDERBUFFER, index);
-    }
-
-    static void unbind() {
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    }
-
-    GLuint get_index() const {
-        return index;
     }
 
     void storage(glm::ivec2 size) {
         glRenderbufferStorage(GL_RENDERBUFFER, mode, size.x, size.y);
     }
-
-private:
-    GLuint index;
 };
 
 using DepthBuffer = RenderBuffer<GL_DEPTH_STENCIL>;

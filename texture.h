@@ -2,18 +2,15 @@
 
 #include <GL/glew.h>
 
+#include "bindable.h"
+
 #include <vector>
 
-class Texture {
+class Texture: public Bindable {
 public:
     Texture();
     virtual ~Texture();
 
-    void bind() const;
-    static void unbind();
+    void do_bind(GLuint) const override;
     void data(GLsizei w, GLsizei h, GLubyte* t) const;
-    GLuint get_index() const;
-
-private:
-    GLuint index;
 };

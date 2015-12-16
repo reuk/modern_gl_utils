@@ -2,10 +2,11 @@
 
 #include "logger.h"
 #include "shader.h"
+#include "bindable.h"
 
 #include <string>
 
-class Program {
+class Program: public Usable {
 public:
     Program();
     virtual ~Program();
@@ -21,17 +22,11 @@ public:
     }
 
     void link() const;
-    void use() const;
-    static void unuse();
+    void do_use(GLuint) const override;
 
     GLint get_attrib_location(const std::string &name) const;
     GLint get_uniform_location(const std::string &name) const;
 
     bool check() const;
     bool verify() const;
-
-    GLuint get_index() const;
-
-private:
-    GLuint index;
 };

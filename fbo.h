@@ -4,12 +4,13 @@
 
 #include "render_buffer.h"
 #include "texture_object.h"
+#include "bindable.h"
 
 template <GLuint mode>
-class FBO {
+class FBO: public Bindable {
 public:
     FBO()
-            : index(0) {
+            : Bindable(0) {
         glGenFramebuffers(1, &index);
     }
 
@@ -17,32 +18,21 @@ public:
         glDeleteFramebuffers(1, &index);
     }
 
-    void bind() const {
+    void do_bind(GLuint index) const override {
         glBindFramebuffer(mode, index);
-    }
-
-    static void unbind() {
-        glBindFramebuffer(mode, 0);
-    }
-
-    GLuint get_index() const {
-        return index;
     }
 
     void depthbuffer(const DepthBuffer& buffer) const {
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,
                                   GL_DEPTH_STENCIL_ATTACHMENT,
                                   GL_RENDERBUFFER,
-                                  buffer.get_index());
+                                  buffer.index);
     }
 
     void texture(const TextureObject& texture, GLenum attachment) const {
         glFramebufferTexture(
-            GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
+            GL_FRAMEBUFFER, attachment, texture.index, 0);
     }
-
-private:
-    GLuint index;
 };
 
 using ReadDrawFBO = FBO<GL_FRAMEBUFFER>;

@@ -2,18 +2,19 @@
 
 #include <GL/glew.h>
 
+#include "bindable.h"
+
 #include <vector>
 
-class Sampler {
+class Sampler: public Bindable {
 public:
     Sampler();
     virtual ~Sampler();
 
-    void bind(GLuint where) const;
-    static void unbind();
-    GLuint get_index() const;
-    void parameter_i(GLuint, GLuint) const;
+    void set_where(GLuint where);
 
+    void bind(GLuint) const;
+    void parameter_i(GLuint, GLuint) const;
 private:
-    GLuint index;
+    GLuint where;
 };

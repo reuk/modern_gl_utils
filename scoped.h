@@ -1,33 +1,38 @@
 #pragma once
 
-template <typename T>
+#include "bindable.h"
+
 struct ScopedBind {
-    ScopedBind(const T& t) {
+    ScopedBind(const Bindable& t)
+        : t(t) {
         t.bind();
     }
 
     virtual ~ScopedBind() {
-        T::unbind();
+        t.unbind();
     }
+
+private:
+    const Bindable& t;
 };
 
-template <typename T>
 struct ScopedUse {
-    ScopedUse(const T& t) {
+    ScopedUse(const Usable& t)
+        : t(t) {
         t.use();
     }
 
     virtual ~ScopedUse() {
-        T::unuse();
+        t.unuse();
     }
+private:
+    const Usable& t;
 };
 
-template <typename T>
-auto bind_scoped(const T& t) {
-    return ScopedBind<T>(t);
+inline auto scoped(const Bindable & t) {
+    return ScopedBind(t);
 }
 
-template <typename T>
-auto use_scoped(const T& t) {
-    return ScopedUse<T>(t);
+inline auto scoped(const Usable & t) {
+    return ScopedUse(t);
 }

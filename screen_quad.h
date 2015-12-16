@@ -23,7 +23,7 @@ public:
         };
         vertex_bo.data(vertices);
 
-        ScopedBind<VAO> s_vao(vao);
+        auto s_vao = scoped(vao);
 
         vertex_bo.bind();
         auto v_pos = shader.get_attrib_location("v_position");
@@ -32,7 +32,7 @@ public:
     }
 
     void draw() const {
-        ScopedBind<VAO> s_vao(vao);
+        auto s_vao = scoped(vao);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 
