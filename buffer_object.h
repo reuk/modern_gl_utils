@@ -2,7 +2,6 @@
 
 #include "logger.h"
 #include "bindable.h"
-#include "scoped.h"
 
 #include <vector>
 
@@ -104,7 +103,7 @@ public:
 
     template <typename T>
     void data(const std::vector<T> &t) const {
-        auto s = scoped(*this);
+        auto s = get_scoped();
         glBufferData(type, t.size() * sizeof(T), t.data(), mode);
     }
 };

@@ -21,3 +21,11 @@ void Usable::use() const {
 void Usable::unuse() const {
     do_use(0);
 }
+
+Bindable::Scoped Bindable::get_scoped() const {
+    return Scoped(*this);
+}
+
+Usable::Scoped Usable::get_scoped() const {
+    return Scoped(*this);
+}

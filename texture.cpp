@@ -1,7 +1,5 @@
 #include "texture.h"
 
-#include "scoped.h"
-
 using namespace std;
 
 Texture::Texture()
@@ -18,6 +16,6 @@ void Texture::do_bind(GLuint index) const {
 }
 
 void Texture::data(GLsizei w, GLsizei h, GLubyte* t) const {
-    auto s = scoped(*this);
+    auto s = get_scoped();
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, t);
 }

@@ -11,6 +11,20 @@ public:
 
 class Bindable : public IndexOwner {
 public:
+    struct Scoped {
+        Scoped(const Bindable& t)
+                : t(t) {
+            t.bind();
+        }
+
+        virtual ~Scoped() {
+            t.unbind();
+        }
+
+    private:
+        const Bindable& t;
+    };
+
     using IndexOwner::IndexOwner;
     virtual ~Bindable() noexcept = default;
 
@@ -18,10 +32,25 @@ public:
 
     void bind() const;
     void unbind() const;
+
+    Scoped get_scoped() const;
 };
 
 class Usable : public IndexOwner {
 public:
+    struct Scoped {
+        Scoped(const Usable& t)
+                : t(t) {
+            t.use();
+        }
+
+        virtual ~Scoped() {
+            t.unuse();
+        }
+    private:
+        const Usable& t;
+    };
+
     using IndexOwner::IndexOwner;
     virtual ~Usable() noexcept = default;
 
@@ -29,4 +58,6 @@ public:
 
     void use() const;
     void unuse() const;
+
+    Scoped get_scoped() const;
 };
