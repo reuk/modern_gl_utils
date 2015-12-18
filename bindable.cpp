@@ -1,9 +1,7 @@
 #include "bindable.h"
 
 IndexOwner::IndexOwner(GLuint index)
-    : index(index)
-{
-
+        : index(index) {
 }
 
 void Bindable::bind() const {

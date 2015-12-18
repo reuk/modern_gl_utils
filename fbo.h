@@ -1,13 +1,13 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <OpenGL/gl3.h>
 
 #include "render_buffer.h"
 #include "texture_object.h"
 #include "bindable.h"
 
 template <GLuint mode>
-class FBO: public Bindable {
+class FBO : public Bindable {
 public:
     FBO()
             : Bindable(0) {
@@ -30,8 +30,7 @@ public:
     }
 
     void texture(const TextureObject& texture, GLenum attachment) const {
-        glFramebufferTexture(
-            GL_FRAMEBUFFER, attachment, texture.index, 0);
+        glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.index, 0);
     }
 };
 

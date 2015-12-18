@@ -2,7 +2,7 @@
 
 #include "bindable.h"
 
-#include <GL/glew.h>
+#include <OpenGL/gl3.h>
 
 class VAO : public Bindable {
 public:

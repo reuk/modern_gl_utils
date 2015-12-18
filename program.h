@@ -6,7 +6,7 @@
 
 #include <string>
 
-class Program: public Usable {
+class Program : public Usable {
 public:
     Program();
     virtual ~Program();

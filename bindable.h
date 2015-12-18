@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <OpenGL/gl3.h>
 
 class IndexOwner {
 public:
@@ -47,6 +47,7 @@ public:
         virtual ~Scoped() {
             t.unuse();
         }
+
     private:
         const Usable& t;
     };

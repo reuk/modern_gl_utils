@@ -1,7 +1,5 @@
 #pragma once
 
-#include <GL/glew.h>
-
 #include "drawable.h"
 #include "quad_shader.h"
 

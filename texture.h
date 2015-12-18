@@ -1,12 +1,10 @@
 #pragma once
 
-#include <GL/glew.h>
-
 #include "bindable.h"
 
 #include <vector>
 
-class Texture: public Bindable {
+class Texture : public Bindable {
 public:
     Texture();
     virtual ~Texture();

@@ -10,7 +10,6 @@ using namespace glm;
 
 GenericShader::GenericShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
-    LOG_SCOPE;
 }
 
 void GenericShader::set_matrix(const string &s, const mat4 &mat) const {
@@ -34,7 +33,7 @@ void GenericShader::set_black(bool b) const {
 }
 
 const string GenericShader::vertex_shader(R"(
-#version 330
+#version 150
 in vec3 v_position;
 in vec4 v_color;
 out vec4 f_color;
@@ -65,7 +64,7 @@ void main() {
 )");
 
 const string GenericShader::fragment_shader(R"(
-#version 330
+#version 150
 in vec4 f_color;
 out vec4 frag_color;
 void main() {

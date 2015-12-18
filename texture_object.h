@@ -1,10 +1,8 @@
 #pragma once
 
-#include <GL/glew.h>
-
 #include "bindable.h"
 
-class TextureObject: public Bindable {
+class TextureObject : public Bindable {
 public:
     TextureObject()
             : Bindable(0) {

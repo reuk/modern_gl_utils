@@ -1,11 +1,11 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <OpenGL/gl3.h>
 
 #include "bindable.h"
 
 template <GLuint mode>
-class RenderBuffer: public Bindable {
+class RenderBuffer : public Bindable {
 public:
     RenderBuffer()
             : Bindable(0) {
