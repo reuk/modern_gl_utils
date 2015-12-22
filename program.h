@@ -1,6 +1,5 @@
 #pragma once
 
-#include "logger.h"
 #include "shader.h"
 #include "bindable.h"
 

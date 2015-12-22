@@ -1,5 +1,4 @@
 #include "vao.h"
-#include "logger.h"
 
 VAO::VAO()
         : Bindable(0) {

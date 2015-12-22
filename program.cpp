@@ -1,6 +1,6 @@
 #include "program.h"
 
-#include "logger.h"
+//#include "logger.h"
 
 #include <vector>
 #include <map>
@@ -28,23 +28,30 @@ void Program::do_use(GLuint index) const {
 
 GLint Program::get_attrib_location(const std::string &name) const {
     auto ret = glGetAttribLocation(index, name.c_str());
+    /*
     if (ret == -1)
         Logger::log_err("no such attrib: ", name);
+    */
     return ret;
 }
 
 GLint Program::get_uniform_location(const std::string &name) const {
     auto ret = glGetUniformLocation(index, name.c_str());
+    /*
     if (ret == -1)
         Logger::log_err("no such uniform: ", name);
+    */
     return ret;
 }
 
+/*
 void simple_print(GLuint item, const pair<GLenum, string> &i, int &params) {
     glGetProgramiv(item, i.first, &params);
     Logger::log(i.second, ": ", params);
 }
+*/
 
+/*
 void log_params() {
     vector<pair<GLenum, string>> int_params = {
         {GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
@@ -92,7 +99,9 @@ void log_params() {
 
     Logger::log("--------------------------------");
 }
+*/
 
+/*
 template <typename T>
 void print_info_log(GLuint shader, T func) {
     vector<char> log(2048);
@@ -106,7 +115,9 @@ void print_info_log(GLuint shader, T func) {
         Logger::log(log.data());
     }
 }
+*/
 
+/*
 template <typename T, typename U>
 auto check_gl(GLuint item, GLenum flag, T a, U b) {
     auto params = -1;
@@ -118,7 +129,9 @@ auto check_gl(GLuint item, GLenum flag, T a, U b) {
     }
     return true;
 }
+*/
 
+/*
 auto check_shader(GLuint item) {
     return check_gl(item, GL_COMPILE_STATUS, glGetShaderiv, glGetShaderInfoLog);
 }
@@ -216,3 +229,4 @@ bool Program::verify() const {
     }
     return true;
 }
+*/
