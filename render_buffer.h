@@ -9,11 +9,11 @@ class RenderBuffer : public Bindable {
 public:
     RenderBuffer()
             : Bindable(0) {
-        glGenRenderbuffers(1, &index);
+        glGenRenderbuffers(1, &get_index());
     }
 
     virtual ~RenderBuffer() {
-        glDeleteRenderbuffers(1, &index);
+        glDeleteRenderbuffers(1, &get_index());
     }
 
     void do_bind(GLuint index) const {

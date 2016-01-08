@@ -4,11 +4,11 @@ using namespace std;
 
 Sampler::Sampler()
         : Bindable(0) {
-    glGenSamplers(1, &index);
+    glGenSamplers(1, &get_index());
 }
 
 Sampler::~Sampler() {
-    glDeleteSamplers(1, &index);
+    glDeleteSamplers(1, &get_index());
 }
 
 void Sampler::set_where(GLuint w) {
@@ -16,9 +16,9 @@ void Sampler::set_where(GLuint w) {
 }
 
 void Sampler::bind(GLuint where) const {
-    glBindSampler(where, index);
+    glBindSampler(where, get_index());
 }
 
 void Sampler::parameter_i(GLuint a, GLuint b) const {
-    glSamplerParameteri(index, a, b);
+    glSamplerParameteri(get_index(), a, b);
 }

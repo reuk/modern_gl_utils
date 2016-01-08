@@ -6,11 +6,11 @@ class TextureObject : public Bindable {
 public:
     TextureObject()
             : Bindable(0) {
-        glGenTextures(1, &index);
+        glGenTextures(1, &get_index());
     }
 
     virtual ~TextureObject() {
-        glDeleteTextures(1, &index);
+        glDeleteTextures(1, &get_index());
     }
 
     void do_bind(GLuint index) const {

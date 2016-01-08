@@ -12,12 +12,12 @@ public:
 
     template <GLuint I>
     void attach(const Shader<I> &s) const {
-        glAttachShader(index, s.get_index());
+        glAttachShader(get_index(), s.get_index());
     }
 
     template <GLuint I>
     void detach(const Shader<I> &s) const {
-        glDetachShader(index, s.get_index());
+        glDetachShader(get_index(), s.get_index());
     }
 
     void link() const;

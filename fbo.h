@@ -11,11 +11,11 @@ class FBO : public Bindable {
 public:
     FBO()
             : Bindable(0) {
-        glGenFramebuffers(1, &index);
+        glGenFramebuffers(1, &get_index());
     }
 
     virtual ~FBO() {
-        glDeleteFramebuffers(1, &index);
+        glDeleteFramebuffers(1, &get_index());
     }
 
     void do_bind(GLuint index) const override {
@@ -26,11 +26,11 @@ public:
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,
                                   GL_DEPTH_STENCIL_ATTACHMENT,
                                   GL_RENDERBUFFER,
-                                  buffer.index);
+                                  buffer.get_index());
     }
 
     void texture(const TextureObject& texture, GLenum attachment) const {
-        glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.index, 0);
+        glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
     }
 };
 

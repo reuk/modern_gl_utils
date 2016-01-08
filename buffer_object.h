@@ -10,13 +10,19 @@ class BufferObject : public Bindable {
 public:
     BufferObject()
             : Bindable(0) {
-        glGenBuffers(1, &index);
+        glGenBuffers(1, &get_index());
     }
 
-    virtual ~BufferObject() {
-        glDeleteBuffers(1, &index);
+    ~BufferObject() {
+        glDeleteBuffers(1, &get_index());
     }
 
+    BufferObject(BufferObject&&) noexcept = default;
+    BufferObject& operator=(BufferObject&&) noexcept = default;
+    BufferObject(const BufferObject&) noexcept = default;
+    BufferObject& operator=(const BufferObject&) noexcept = default;
+
+    /*
     BufferObject(const BufferObject &rhs) noexcept : Bindable(0) {
         glGenBuffers(1, &index);
 
@@ -96,6 +102,7 @@ public:
 
         return *this;
     }
+    */
 
     void do_bind(GLuint index) const override {
         glBindBuffer(type, index);

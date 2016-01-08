@@ -4,11 +4,11 @@ using namespace std;
 
 Texture::Texture()
         : Bindable(0) {
-    glGenTextures(1, &index);
+    glGenTextures(1, &get_index());
 }
 
 Texture::~Texture() {
-    glDeleteTextures(1, &index);
+    glDeleteTextures(1, &get_index());
 }
 
 void Texture::do_bind(GLuint index) const {

@@ -1,25 +1,30 @@
 #pragma once
 
+#include <memory>
 #include <OpenGL/gl3.h>
 
 class IndexOwner {
 public:
     IndexOwner(GLuint index);
+
     virtual ~IndexOwner() noexcept = default;
-    GLuint index;
+    IndexOwner(IndexOwner&&) noexcept = default;
+    IndexOwner& operator=(IndexOwner&&) noexcept = default;
+    IndexOwner(const IndexOwner&) noexcept = default;
+    IndexOwner& operator=(const IndexOwner&) noexcept = default;
+
+    GLuint get_index() const;
+    GLuint & get_index();
+
+private:
+    std::unique_ptr<GLuint> index;
 };
 
 class Bindable : public IndexOwner {
 public:
     struct Scoped {
-        Scoped(const Bindable& t)
-                : t(t) {
-            t.bind();
-        }
-
-        virtual ~Scoped() {
-            t.unbind();
-        }
+        Scoped(const Bindable& t);
+        virtual ~Scoped() noexcept;
 
     private:
         const Bindable& t;
@@ -39,14 +44,8 @@ public:
 class Usable : public IndexOwner {
 public:
     struct Scoped {
-        Scoped(const Usable& t)
-                : t(t) {
-            t.use();
-        }
-
-        virtual ~Scoped() {
-            t.unuse();
-        }
+        Scoped(const Usable& t);
+        virtual ~Scoped() noexcept;
 
     private:
         const Usable& t;

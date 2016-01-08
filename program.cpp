@@ -9,17 +9,17 @@ using namespace std;
 
 Program::Program()
         : Usable(glCreateProgram()) {
-    if (index == 0) {
+    if (get_index() == 0) {
         throw runtime_error("failed to create shader program");
     }
 }
 
 Program::~Program() {
-    glDeleteProgram(index);
+    glDeleteProgram(get_index());
 }
 
 void Program::link() const {
-    glLinkProgram(index);
+    glLinkProgram(get_index());
 }
 
 void Program::do_use(GLuint index) const {
@@ -27,7 +27,7 @@ void Program::do_use(GLuint index) const {
 }
 
 GLint Program::get_attrib_location(const std::string &name) const {
-    auto ret = glGetAttribLocation(index, name.c_str());
+    auto ret = glGetAttribLocation(get_index(), name.c_str());
     /*
     if (ret == -1)
         Logger::log_err("no such attrib: ", name);
@@ -36,7 +36,7 @@ GLint Program::get_attrib_location(const std::string &name) const {
 }
 
 GLint Program::get_uniform_location(const std::string &name) const {
-    auto ret = glGetUniformLocation(index, name.c_str());
+    auto ret = glGetUniformLocation(get_index(), name.c_str());
     /*
     if (ret == -1)
         Logger::log_err("no such uniform: ", name);
