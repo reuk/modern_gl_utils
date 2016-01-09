@@ -30,7 +30,8 @@ public:
     }
 
     void texture(const TextureObject& texture, GLenum attachment) const {
-        glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
+        glFramebufferTexture(
+            GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
     }
 };
 

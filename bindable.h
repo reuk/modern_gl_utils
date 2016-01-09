@@ -13,8 +13,9 @@ public:
     IndexOwner(const IndexOwner&) noexcept = default;
     IndexOwner& operator=(const IndexOwner&) noexcept = default;
 
+    bool valid() const;
     GLuint get_index() const;
-    GLuint & get_index();
+    GLuint& get_index();
 
 private:
     std::unique_ptr<GLuint> index;

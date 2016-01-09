@@ -4,10 +4,13 @@ IndexOwner::IndexOwner(GLuint index)
         : index(std::make_unique<GLuint>(index)) {
 }
 
-GLuint IndexOwner::get_index() const {
-    return *index;
+bool IndexOwner::valid() const {
+    return index != nullptr;
 }
 
+GLuint IndexOwner::get_index() const {
+    return valid() ? *index : 0;
+}
 GLuint& IndexOwner::get_index() {
     return *index;
 }
