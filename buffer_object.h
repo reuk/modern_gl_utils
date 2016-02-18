@@ -109,10 +109,19 @@ public:
     }
 
     template <typename T>
-    void data(const std::vector<T>& t) const {
+    void data(const std::vector<T>& t) {
         auto s = get_scoped();
-        glBufferData(type, t.size() * sizeof(T), t.data(), mode);
+        auto in_size = t.size() * sizeof(T);
+        if (in_size != size) {
+            size = in_size;
+            glBufferData(type, in_size, t.data(), mode);
+        } else {
+            glBufferSubData(type, 0, in_size, t.data());
+        }
     }
+
+private:
+    size_t size{0};
 };
 
 using StaticVBO = BufferObject<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
