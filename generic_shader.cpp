@@ -26,10 +26,6 @@ void GenericShader::set_projection_matrix(const glm::mat4 &mat) const {
     set_matrix("v_projection", mat);
 }
 
-void GenericShader::set_black(bool b) const {
-    glUniform1i(get_uniform_location("v_black"), b);
-}
-
 const std::string GenericShader::vertex_shader(R"(
 #version 150
 in vec3 v_position;

@@ -11,7 +11,6 @@ public:
     void set_model_matrix(const glm::mat4 &mat) const;
     void set_view_matrix(const glm::mat4 &mat) const;
     void set_projection_matrix(const glm::mat4 &mat) const;
-    void set_black(bool b) const;
 
 private:
     void set_matrix(const std::string &s, const glm::mat4 &mat) const;
