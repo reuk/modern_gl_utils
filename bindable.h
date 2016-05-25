@@ -6,19 +6,20 @@
 class IndexOwner {
 public:
     IndexOwner(GLuint index);
-
     virtual ~IndexOwner() noexcept = default;
-    IndexOwner(IndexOwner&&) noexcept = default;
-    IndexOwner& operator=(IndexOwner&&) noexcept = default;
-    IndexOwner(const IndexOwner&) noexcept = default;
-    IndexOwner& operator=(const IndexOwner&) noexcept = default;
+
+    IndexOwner(IndexOwner&&) noexcept;
+    IndexOwner& operator=(IndexOwner&&) noexcept;
+
+    IndexOwner(const IndexOwner&) noexcept = delete;
+    IndexOwner& operator=(const IndexOwner&) noexcept = delete;
 
     bool valid() const;
-    GLuint get_index() const;
+    const GLuint &get_index() const;
     GLuint& get_index();
 
 private:
-    std::unique_ptr<GLuint> index;
+    GLuint index {0};
 };
 
 class Bindable : public IndexOwner {
@@ -32,7 +33,6 @@ public:
     };
 
     using IndexOwner::IndexOwner;
-    virtual ~Bindable() noexcept = default;
 
     virtual void do_bind(GLuint) const = 0;
 
@@ -53,7 +53,6 @@ public:
     };
 
     using IndexOwner::IndexOwner;
-    virtual ~Usable() noexcept = default;
 
     virtual void do_use(GLuint) const = 0;
 

@@ -7,7 +7,6 @@
 class GenericShader : public ShaderProgram {
 public:
     GenericShader();
-    virtual ~GenericShader() noexcept = default;
 
     void set_model_matrix(const glm::mat4 &mat) const;
     void set_view_matrix(const glm::mat4 &mat) const;

@@ -2,9 +2,9 @@
 
 #include <OpenGL/gl3.h>
 
+#include "bindable.h"
 #include "render_buffer.h"
 #include "texture_object.h"
-#include "bindable.h"
 
 template <GLuint mode>
 class FBO : public Bindable {

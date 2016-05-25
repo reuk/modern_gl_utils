@@ -2,6 +2,7 @@
 
 #include "drawable.h"
 #include "quad_shader.h"
+#include "vao.h"
 
 #define GLM_FORCE_RADIANS
 #include <glm/gtx/rotate_vector.hpp>

@@ -5,14 +5,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-using namespace std;
-using namespace glm;
-
 QuadShader::QuadShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
 
-const string QuadShader::vertex_shader(R"(
+const std::string QuadShader::vertex_shader(R"(
 #version 330
 layout(location = 0) in vec3 v_position;
 out vec2 UV;
@@ -22,7 +19,7 @@ void main() {
 }
 )");
 
-const string QuadShader::fragment_shader(R"(
+const std::string QuadShader::fragment_shader(R"(
 #version 330
 in vec2 UV;
 layout(location = 0) out vec4 frag_color;

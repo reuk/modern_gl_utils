@@ -5,12 +5,10 @@
 #include <vector>
 #include <map>
 
-using namespace std;
-
 Program::Program()
         : Usable(glCreateProgram()) {
     if (get_index() == 0) {
-        throw runtime_error("failed to create shader program");
+        throw std::runtime_error("failed to create shader program");
     }
 }
 

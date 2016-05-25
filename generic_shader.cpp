@@ -5,26 +5,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-using namespace std;
-using namespace glm;
-
 GenericShader::GenericShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
 
-void GenericShader::set_matrix(const string &s, const mat4 &mat) const {
+void GenericShader::set_matrix(const std::string &s,
+                               const glm::mat4 &mat) const {
     glUniformMatrix4fv(get_uniform_location(s), 1, GL_FALSE, value_ptr(mat));
 }
 
-void GenericShader::set_model_matrix(const mat4 &mat) const {
+void GenericShader::set_model_matrix(const glm::mat4 &mat) const {
     set_matrix("v_model", mat);
 }
 
-void GenericShader::set_view_matrix(const mat4 &mat) const {
+void GenericShader::set_view_matrix(const glm::mat4 &mat) const {
     set_matrix("v_view", mat);
 }
 
-void GenericShader::set_projection_matrix(const mat4 &mat) const {
+void GenericShader::set_projection_matrix(const glm::mat4 &mat) const {
     set_matrix("v_projection", mat);
 }
 
@@ -32,7 +30,7 @@ void GenericShader::set_black(bool b) const {
     glUniform1i(get_uniform_location("v_black"), b);
 }
 
-const string GenericShader::vertex_shader(R"(
+const std::string GenericShader::vertex_shader(R"(
 #version 150
 in vec3 v_position;
 in vec4 v_color;
@@ -63,7 +61,7 @@ void main() {
 }
 )");
 
-const string GenericShader::fragment_shader(R"(
+const std::string GenericShader::fragment_shader(R"(
 #version 150
 in vec4 f_color;
 out vec4 frag_color;

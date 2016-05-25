@@ -1,7 +1,5 @@
 #include "sampler.h"
 
-using namespace std;
-
 Sampler::Sampler()
         : Bindable(0) {
     glGenSamplers(1, &get_index());

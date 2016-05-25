@@ -1,19 +1,31 @@
 #include "bindable.h"
 
 IndexOwner::IndexOwner(GLuint index)
-        : index(std::make_unique<GLuint>(index)) {
+        : index(index) {
+}
+
+IndexOwner::IndexOwner(IndexOwner&& rhs) noexcept {
+    std::swap(index, rhs.index);
+}
+
+IndexOwner& IndexOwner::operator=(IndexOwner&& rhs) noexcept {
+    std::swap(index, rhs.index);
+    return *this;
 }
 
 bool IndexOwner::valid() const {
-    return index != nullptr;
+    return index;
 }
 
-GLuint IndexOwner::get_index() const {
-    return valid() ? *index : 0;
+const GLuint &IndexOwner::get_index() const {
+    return index;
 }
+
 GLuint& IndexOwner::get_index() {
-    return *index;
+    return index;
 }
+
+//----------------------------------------------------------------------------//
 
 void Bindable::bind() const {
     do_bind(get_index());
@@ -23,6 +35,8 @@ void Bindable::unbind() const {
     do_bind(0);
 }
 
+//----------------------------------------------------------------------------//
+
 void Usable::use() const {
     do_use(get_index());
 }
@@ -30,6 +44,8 @@ void Usable::use() const {
 void Usable::unuse() const {
     do_use(0);
 }
+
+//----------------------------------------------------------------------------//
 
 Bindable::Scoped Bindable::get_scoped() const {
     return Scoped(*this);

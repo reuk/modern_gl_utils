@@ -2,18 +2,15 @@
 
 #include <algorithm>
 
-using namespace std;
-using namespace glm;
-
-vector<GLushort> indices(int points) {
-    vector<GLushort> ret(points);
+std::vector<GLushort> indices(int points) {
+    std::vector<GLushort> ret(points);
     auto i = 0;
-    generate(begin(ret), end(ret), [&i]() { return i++; });
+    std::generate(begin(ret), end(ret), [&i]() { return i++; });
     return ret;
 }
 
-vector<GLfloat> format(const vector<vec3> &points) {
-    vector<GLfloat> ret(points.size() * 3);
+std::vector<GLfloat> format(const std::vector<glm::vec3> &points) {
+    std::vector<GLfloat> ret(points.size() * 3);
     for (auto i = 0u; i != points.size(); ++i) {
         auto ret_index = i * 3;
         ret[ret_index + 0] = points[i].x;

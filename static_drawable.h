@@ -49,8 +49,6 @@ public:
         return *this;
     }
 
-    virtual ~StaticDrawable() noexcept = default;
-
     void set_model_matrix(const glm::mat4 &model_matrix) const {
         shader_program.set_model_matrix(model_matrix);
     }

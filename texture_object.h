@@ -2,6 +2,8 @@
 
 #include "bindable.h"
 
+#include <glm/glm.hpp>
+
 class TextureObject : public Bindable {
 public:
     TextureObject()

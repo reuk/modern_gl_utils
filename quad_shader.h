@@ -7,7 +7,6 @@
 class QuadShader : public ShaderProgram {
 public:
     QuadShader();
-    virtual ~QuadShader() noexcept = default;
 
 private:
     static const std::string vertex_shader;
