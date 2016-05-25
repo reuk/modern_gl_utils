@@ -38,26 +38,10 @@ out vec4 f_color;
 uniform mat4 v_model;
 uniform mat4 v_view;
 uniform mat4 v_projection;
-uniform bool v_black;
-
-const float minPoint = 0.1;
-const float maxPoint = 8.0;
-const float minColour = 0.9;
-const float maxColour = 1.0;
-const float maxDist = 20.0;
 
 void main() {
-    vec4 cs_Position = v_view * v_model * vec4(v_position, 1.0);
-    gl_Position = v_projection * cs_Position;
-    float dist = -cs_Position.z;
-    float scaled = 1.0 - (dist / maxDist);
-    float p = scaled * (maxPoint - minPoint) + minPoint;
-    float c = scaled * (maxColour - minColour) + minColour;
-    p = clamp(p, minPoint, maxPoint);
-    c = clamp(c, minColour, maxColour);
-    gl_PointSize = p;
-    f_color = v_color * vec4(c);
-    f_color = v_black ? vec4(0, 0, 0, 1) : f_color;
+    gl_Position = v_projection * v_view * v_model * vec4(v_position, 1.0);
+    f_color = v_color;
 }
 )");
 
