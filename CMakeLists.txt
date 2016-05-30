@@ -26,7 +26,7 @@ find_package(PkgConfig REQUIRED)
 
 add_library(${name} STATIC ${sources})
 
-set(GLM_INCLUDE_DIR "" CACHE FILEPATH "Path to glm includes")
+set(GLM_INCLUDE_DIR "" CACHE PATH "Path to glm includes")
 
 target_include_directories(${name}
     PUBLIC
