@@ -26,13 +26,15 @@ find_package(PkgConfig REQUIRED)
 
 add_library(${name} STATIC ${sources})
 
+set(GLM_INCLUDE_DIR "" CACHE FILEPATH "Path to glm includes")
+
 target_include_directories(${name}
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     PRIVATE
     src
-    ${FREETYPE_INCLUDE_DIRS}
+    ${GLM_INCLUDE_DIR}
     "/usr/local/include/"
 )
 
