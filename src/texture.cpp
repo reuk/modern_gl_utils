@@ -1,4 +1,4 @@
-#include "texture.h"
+#include "modern_gl_utils/texture.h"
 
 using namespace std;
 

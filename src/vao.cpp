@@ -1,4 +1,4 @@
-#include "vao.h"
+#include "modern_gl_utils/vao.h"
 
 VAO::VAO()
         : Bindable(0) {

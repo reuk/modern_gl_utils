@@ -1,4 +1,4 @@
-#include "quad_shader.h"
+#include "modern_gl_utils/quad_shader.h"
 
 #define GLM_FORCE_RADIANS
 #include <glm/gtx/rotate_vector.hpp>

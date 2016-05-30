@@ -1,4 +1,4 @@
-#include "geometry_helpers.h"
+#include "modern_gl_utils/geometry_helpers.h"
 
 #include <algorithm>
 

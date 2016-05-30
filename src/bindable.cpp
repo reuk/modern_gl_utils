@@ -1,4 +1,4 @@
-#include "bindable.h"
+#include "modern_gl_utils/bindable.h"
 
 IndexOwner::IndexOwner(GLuint index)
         : index(index) {

@@ -13,20 +13,28 @@ set(modern_gl_utils_VERSION 0.0.1)
 
 include(GenerateExportHeader)
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -std=gnu++14")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -std=c++14")
 
 set(name modern_gl_utils)
-file(GLOB sources "*.cpp")
-file(GLOB headers "*.h")
+file(GLOB sources "src/*.cpp")
+file(GLOB headers "include/modern_gl_utils/*.h")
 
 SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 
 find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
 
-include_directories(${FREETYPE_INCLUDE_DIRS})
-
 add_library(${name} STATIC ${sources})
+
+target_include_directories(${name}
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    PRIVATE
+    src
+    ${FREETYPE_INCLUDE_DIRS}
+    "/usr/local/include/"
+)
 
 set(libraries
     ${OPENGL_LIBRARIES}

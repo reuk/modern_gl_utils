@@ -1,4 +1,4 @@
-#include "sampler.h"
+#include "modern_gl_utils/sampler.h"
 
 Sampler::Sampler()
         : Bindable(0) {
