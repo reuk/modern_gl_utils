@@ -2,7 +2,7 @@
 
 #include "bindable.h"
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 class TextureObject : public Bindable {
 public:

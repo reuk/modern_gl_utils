@@ -2,7 +2,7 @@
 
 #include "shader_program.h"
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 class QuadShader : public ShaderProgram {
 public:

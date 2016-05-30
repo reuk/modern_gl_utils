@@ -1,10 +1,5 @@
 #include "modern_gl_utils/quad_shader.h"
 
-#define GLM_FORCE_RADIANS
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 QuadShader::QuadShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }

@@ -3,8 +3,7 @@
 #include "bindable.h"
 
 #include <OpenGL/gl3.h>
-
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 template <GLuint mode>
 class RenderBuffer : public Bindable {

@@ -1,7 +1,5 @@
 #include "modern_gl_utils/texture.h"
 
-using namespace std;
-
 Texture::Texture()
         : Bindable(0) {
     glGenTextures(1, &get_index());

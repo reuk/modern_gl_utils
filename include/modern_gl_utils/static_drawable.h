@@ -6,7 +6,7 @@
 #include "buffer_object.h"
 #include "generic_shader.h"
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 #include <vector>
 
