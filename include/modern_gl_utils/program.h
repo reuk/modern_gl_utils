@@ -3,6 +3,8 @@
 #include "shader.h"
 #include "bindable.h"
 
+#include "glm/glm.hpp"
+
 #include <string>
 
 class Program : public Usable {
