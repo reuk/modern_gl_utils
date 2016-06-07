@@ -272,17 +272,17 @@ void Program::set(const std::string& name, glm::vec4 a) const {
     glUniform4fv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
 
-void Program::set(const std::string& name, glm::ivec2) const {
+void Program::set(const std::string& name, glm::ivec2 a) const {
     glUniform2iv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
-void Program::set(const std::string& name, glm::ivec3) const {
+void Program::set(const std::string& name, glm::ivec3 a) const {
     glUniform3iv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
-void Program::set(const std::string& name, glm::ivec4) const {
+void Program::set(const std::string& name, glm::ivec4 a) const {
     glUniform4iv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
 
 void Program::set(const std::string& name, const glm::mat4& a) const {
-    glUniformMatrix4f(
+    glUniformMatrix4fv(
         get_uniform_location(name), 1, GL_FALSE, glm::value_ptr(a));
 }
