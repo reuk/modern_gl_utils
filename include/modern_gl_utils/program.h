@@ -28,4 +28,24 @@ public:
 
     bool check() const;
     bool verify() const;
+
+    void set(const std::string& name, GLfloat) const;
+    void set(const std::string& name, GLfloat, GLfloat) const;
+    void set(const std::string& name, GLfloat, GLfloat, GLfloat) const;
+    void set(const std::string& name, GLfloat, GLfloat, GLfloat, GLfloat) const;
+
+    void set(const std::string& name, GLint) const;
+    void set(const std::string& name, GLint, GLint) const;
+    void set(const std::string& name, GLint, GLint, GLint) const;
+    void set(const std::string& name, GLint, GLint, GLint, GLint) const;
+
+    void set(const std::string& name, glm::vec2) const;
+    void set(const std::string& name, glm::vec3) const;
+    void set(const std::string& name, glm::vec4) const;
+
+    void set(const std::string& name, glm::ivec2) const;
+    void set(const std::string& name, glm::ivec3) const;
+    void set(const std::string& name, glm::ivec4) const;
+
+    void set(const std::string& name, const glm::mat4&) const;
 };

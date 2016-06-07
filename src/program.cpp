@@ -1,9 +1,11 @@
 #include "modern_gl_utils/program.h"
 
+#include "glm/gtc/type_ptr.hpp"
+
 //#include "logger.h"
 
-#include <vector>
 #include <map>
+#include <vector>
 
 Program::Program()
         : Usable(glCreateProgram()) {
@@ -24,7 +26,7 @@ void Program::do_use(GLuint index) const {
     glUseProgram(index);
 }
 
-GLint Program::get_attrib_location(const std::string &name) const {
+GLint Program::get_attrib_location(const std::string& name) const {
     auto ret = glGetAttribLocation(get_index(), name.c_str());
     /*
     if (ret == -1)
@@ -33,7 +35,7 @@ GLint Program::get_attrib_location(const std::string &name) const {
     return ret;
 }
 
-GLint Program::get_uniform_location(const std::string &name) const {
+GLint Program::get_uniform_location(const std::string& name) const {
     auto ret = glGetUniformLocation(get_index(), name.c_str());
     /*
     if (ret == -1)
@@ -228,3 +230,59 @@ bool Program::verify() const {
     return true;
 }
 */
+
+void Program::set(const std::string& name, GLfloat a) const {
+    glUniform1f(get_uniform_location(name), a);
+}
+void Program::set(const std::string& name, GLfloat a, GLfloat b) const {
+    glUniform2f(get_uniform_location(name), a, b);
+}
+void Program::set(const std::string& name,
+                  GLfloat a,
+                  GLfloat b,
+                  GLfloat c) const {
+    glUniform3f(get_uniform_location(name), a, b, c);
+}
+void Program::set(
+    const std::string& name, GLfloat a, GLfloat b, GLfloat c, GLfloat d) const {
+    glUniform4f(get_uniform_location(name), a, b, c, d);
+}
+
+void Program::set(const std::string& name, GLint a) const {
+    glUniform1i(get_uniform_location(name), a);
+}
+void Program::set(const std::string& name, GLint a, GLint b) const {
+    glUniform2i(get_uniform_location(name), a, b);
+}
+void Program::set(const std::string& name, GLint a, GLint b, GLint c) const {
+    glUniform3i(get_uniform_location(name), a, b, c);
+}
+void Program::set(
+    const std::string& name, GLint a, GLint b, GLint c, GLint d) const {
+    glUniform4i(get_uniform_location(name), a, b, c, d);
+}
+
+void Program::set(const std::string& name, glm::vec2 a) const {
+    glUniform2fv(get_uniform_location(name), 1, glm::value_ptr(a));
+}
+void Program::set(const std::string& name, glm::vec3 a) const {
+    glUniform3fv(get_uniform_location(name), 1, glm::value_ptr(a));
+}
+void Program::set(const std::string& name, glm::vec4 a) const {
+    glUniform4fv(get_uniform_location(name), 1, glm::value_ptr(a));
+}
+
+void Program::set(const std::string& name, glm::ivec2) const {
+    glUniform2iv(get_uniform_location(name), 1, glm::value_ptr(a));
+}
+void Program::set(const std::string& name, glm::ivec3) const {
+    glUniform3iv(get_uniform_location(name), 1, glm::value_ptr(a));
+}
+void Program::set(const std::string& name, glm::ivec4) const {
+    glUniform4iv(get_uniform_location(name), 1, glm::value_ptr(a));
+}
+
+void Program::set(const std::string& name, const glm::mat4& a) const {
+    glUniformMatrix4f(
+        get_uniform_location(name), 1, GL_FALSE, glm::value_ptr(a));
+}
