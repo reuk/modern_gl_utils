@@ -32,12 +32,15 @@ public:
     template <typename T>
     void data(const std::vector<T>& t) {
         auto s = get_scoped();
-        auto in_size = t.size() * sizeof(T);
-        if (in_size != size()) {
-            elements = in_size;
-            glBufferData(type, in_size, t.data(), mode);
+        auto in_element = sizeof(T);
+        auto in_elements = t.size();
+        auto in_buffer_size = in_element * in_elements;
+        if (in_buffer_size != buffer_size()) {
+            element = in_element;
+            elements = in_elements;
+            glBufferData(type, buffer_size(), t.data(), mode);
         } else {
-            glBufferSubData(type, 0, in_size, t.data());
+            glBufferSubData(type, 0, buffer_size(), t.data());
         }
     }
 
@@ -45,7 +48,16 @@ public:
         return elements;
     }
 
+    size_t element_size() const {
+        return element;
+    }
+
+    size_t buffer_size() const {
+        return size() * element_size();
+    }
+
 private:
+    size_t element{0};
     size_t elements{0};
 };
 
