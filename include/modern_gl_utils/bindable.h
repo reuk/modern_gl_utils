@@ -33,6 +33,8 @@ public:
     };
 
     using IndexOwner::IndexOwner;
+    Bindable(Bindable&&) noexcept = default;
+    Bindable& operator=(Bindable&&) noexcept = default;
 
     virtual void do_bind(GLuint) const = 0;
 
@@ -53,6 +55,8 @@ public:
     };
 
     using IndexOwner::IndexOwner;
+    Usable(Usable&&) noexcept = default;
+    Usable& operator=(Usable&&) noexcept = default;
 
     virtual void do_use(GLuint) const = 0;
 
