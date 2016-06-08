@@ -16,8 +16,8 @@ public:
         glDeleteBuffers(1, &get_index());
     }
 
-    BufferObject(const BufferObject&) noexcept = default;
-    BufferObject& operator=(const BufferObject&) noexcept = default;
+    BufferObject(BufferObject&&) noexcept = default;
+    BufferObject& operator=(BufferObject&&) noexcept = default;
 
     void do_bind(GLuint index) const override {
         glBindBuffer(type, index);
