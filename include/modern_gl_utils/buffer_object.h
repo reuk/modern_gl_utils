@@ -23,6 +23,12 @@ public:
         glBindBuffer(type, index);
     }
 
+    void clear() {
+        auto s = get_scoped();
+        elements = 0;
+        glBufferData(type, elements, nullptr, mode);
+    }
+
     template <typename T>
     void data(const std::vector<T>& t) {
         auto s = get_scoped();
