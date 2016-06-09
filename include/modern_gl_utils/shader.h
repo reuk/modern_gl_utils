@@ -4,8 +4,8 @@
 
 #include <OpenGL/gl3.h>
 
-#include <string>
 #include <stdexcept>
+#include <string>
 
 template <GLuint type>
 class Shader : public IndexOwner {
@@ -27,12 +27,12 @@ public:
     Shader(Shader &&rhs) noexcept = default;
     Shader &operator=(Shader &&rhs) noexcept = default;
 
-    void source(const std::string &src) {
+    void source(const std::string &src) const {
         auto ptr = src.c_str();
         glShaderSource(get_index(), 1, &ptr, nullptr);
     }
 
-    void compile() {
+    void compile() const {
         glCompileShader(get_index());
     }
 };

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <OpenGL/gl3.h>
 #include "glm/glm.hpp"
+#include <OpenGL/gl3.h>
 
 #include <vector>
 

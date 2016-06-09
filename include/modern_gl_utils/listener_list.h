@@ -1,7 +1,7 @@
 #pragma once
 
-#include <unordered_set>
 #include <memory>
+#include <unordered_set>
 
 template <typename Listener,
           typename Ptr = Listener *,

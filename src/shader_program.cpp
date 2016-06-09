@@ -2,7 +2,7 @@
 
 #include <string>
 
-ShaderProgram::ShaderProgram(const std::string & vs, const std::string & fs) {
+ShaderProgram::ShaderProgram(const std::string& vs, const std::string& fs) {
     FragmentShader f;
     f.source(fs);
     f.compile();

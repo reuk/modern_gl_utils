@@ -6,15 +6,15 @@ GenericShader::GenericShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
 
-void GenericShader::set_model_matrix(const glm::mat4 &mat) {
+void GenericShader::set_model_matrix(const glm::mat4 &mat) const {
     set("v_model", mat);
 }
 
-void GenericShader::set_view_matrix(const glm::mat4 &mat) {
+void GenericShader::set_view_matrix(const glm::mat4 &mat) const {
     set("v_view", mat);
 }
 
-void GenericShader::set_projection_matrix(const glm::mat4 &mat) {
+void GenericShader::set_projection_matrix(const glm::mat4 &mat) const {
     set("v_projection", mat);
 }
 

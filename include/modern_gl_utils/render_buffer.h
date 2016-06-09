@@ -2,8 +2,8 @@
 
 #include "bindable.h"
 
-#include <OpenGL/gl3.h>
 #include "glm/glm.hpp"
+#include <OpenGL/gl3.h>
 
 template <GLuint mode>
 class RenderBuffer : public Bindable {
@@ -17,11 +17,11 @@ public:
         glDeleteRenderbuffers(1, &get_index());
     }
 
-    void do_bind(GLuint index) {
+    void do_bind(GLuint index) const {
         glBindRenderbuffer(GL_RENDERBUFFER, index);
     }
 
-    void storage(glm::ivec2 size) {
+    void storage(glm::ivec2 size) const {
         glRenderbufferStorage(GL_RENDERBUFFER, mode, size.x, size.y);
     }
 };
