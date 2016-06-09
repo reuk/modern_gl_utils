@@ -36,12 +36,12 @@ public:
     Bindable(Bindable&&) noexcept = default;
     Bindable& operator=(Bindable&&) noexcept = default;
 
-    virtual void do_bind(GLuint) = 0;
+    virtual void do_bind(GLuint) const = 0;
 
-    void bind() ;
-    void unbind() ;
+    void bind() const ;
+    void unbind() const ;
 
-    Scoped get_scoped() ;
+    Scoped get_scoped() const;
 };
 
 class Usable : public IndexOwner {
@@ -58,10 +58,10 @@ public:
     Usable(Usable&&) noexcept = default;
     Usable& operator=(Usable&&) noexcept = default;
 
-    virtual void do_use(GLuint) = 0;
+    virtual void do_use(GLuint) const = 0;
 
-    void use() ;
-    void unuse() ;
+    void use() const ;
+    void unuse() const ;
 
-    Scoped get_scoped() ;
+    Scoped get_scoped() const;
 };
