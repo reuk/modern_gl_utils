@@ -11,7 +11,8 @@ public:
 
     void set_where(GLuint where);
 
-    void bind(GLuint) const;
+    void do_bind(GLuint) override;
+
     void parameter_i(GLuint, GLuint) const;
 
 private:

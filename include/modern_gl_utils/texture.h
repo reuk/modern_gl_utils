@@ -9,6 +9,6 @@ public:
     Texture();
     virtual ~Texture();
 
-    void do_bind(GLuint) const override;
-    void data(GLsizei w, GLsizei h, GLubyte* t) const;
+    void do_bind(GLuint) override;
+    void data(GLsizei w, GLsizei h, GLubyte* t) ;
 };

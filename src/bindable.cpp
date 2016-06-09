@@ -27,35 +27,35 @@ GLuint& IndexOwner::get_index() {
 
 //----------------------------------------------------------------------------//
 
-void Bindable::bind() const {
+void Bindable::bind() {
     do_bind(get_index());
 }
 
-void Bindable::unbind() const {
+void Bindable::unbind() {
     do_bind(0);
 }
 
 //----------------------------------------------------------------------------//
 
-void Usable::use() const {
+void Usable::use() {
     do_use(get_index());
 }
 
-void Usable::unuse() const {
+void Usable::unuse() {
     do_use(0);
 }
 
 //----------------------------------------------------------------------------//
 
-Bindable::Scoped Bindable::get_scoped() const {
+Bindable::Scoped Bindable::get_scoped() {
     return Scoped(*this);
 }
 
-Usable::Scoped Usable::get_scoped() const {
+Usable::Scoped Usable::get_scoped() {
     return Scoped(*this);
 }
 
-Bindable::Scoped::Scoped(const Bindable& t)
+Bindable::Scoped::Scoped(Bindable& t)
         : t(t) {
     t.bind();
 }
@@ -64,7 +64,7 @@ Bindable::Scoped::~Scoped() noexcept {
     t.unbind();
 }
 
-Usable::Scoped::Scoped(const Usable& t)
+Usable::Scoped::Scoped(Usable& t)
         : t(t) {
     t.use();
 }

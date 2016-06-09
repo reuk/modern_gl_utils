@@ -1,12 +1,13 @@
 #pragma once
 
 #include "shader_program.h"
+#include "texture.h"
 
 #include "glm/glm.hpp"
 
-class GenericShader : public ShaderProgram {
+class TextShader : public ShaderProgram {
 public:
-    GenericShader();
+    TextShader();
 
     void set_model_matrix(const glm::mat4 &mat) ;
     void set_view_matrix(const glm::mat4 &mat) ;

@@ -15,11 +15,11 @@ public:
         glDeleteTextures(1, &get_index());
     }
 
-    void do_bind(GLuint index) const {
+    void do_bind(GLuint index) {
         glBindTexture(GL_TEXTURE_2D, index);
     }
 
-    void image(glm::ivec2 size) const {
+    void image(glm::ivec2 size) {
         //  TODO probably a better place to put this
         glTexImage2D(GL_TEXTURE_2D,
                      0,
@@ -32,11 +32,11 @@ public:
                      nullptr);
     }
 
-    void parameter(GLenum pname, GLint param) const {
+    void parameter(GLenum pname, GLint param) {
         glTexParameteri(GL_TEXTURE_2D, pname, param);
     }
 
-    void parameter(GLenum pname, GLfloat param) const {
+    void parameter(GLenum pname, GLfloat param) {
         glTexParameterf(GL_TEXTURE_2D, pname, param);
     }
 };

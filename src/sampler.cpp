@@ -13,8 +13,8 @@ void Sampler::set_where(GLuint w) {
     where = w;
 }
 
-void Sampler::bind(GLuint where) const {
-    glBindSampler(where, get_index());
+void Sampler::do_bind(GLuint ind) {
+    glBindSampler(where, ind);
 }
 
 void Sampler::parameter_i(GLuint a, GLuint b) const {

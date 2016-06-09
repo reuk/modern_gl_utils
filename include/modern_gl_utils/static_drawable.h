@@ -61,7 +61,7 @@ public:
     GenericShader &shader_program;
 
 private:
-    void configure_vao() const {
+    void configure_vao() {
         ScopedBind<VAO> scoped(vao);
 
         auto v_position = shader_program.get_attrib_location("v_position");

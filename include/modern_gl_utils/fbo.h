@@ -18,18 +18,18 @@ public:
         glDeleteFramebuffers(1, &get_index());
     }
 
-    void do_bind(GLuint index) const override {
+    void do_bind(GLuint index) override {
         glBindFramebuffer(mode, index);
     }
 
-    void depthbuffer(const DepthBuffer& buffer) const {
+    void depthbuffer(const DepthBuffer& buffer) {
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,
                                   GL_DEPTH_STENCIL_ATTACHMENT,
                                   GL_RENDERBUFFER,
                                   buffer.get_index());
     }
 
-    void texture(const TextureObject& texture, GLenum attachment) const {
+    void texture(const TextureObject& texture, GLenum attachment) {
         glFramebufferTexture(
             GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
     }

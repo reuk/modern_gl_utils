@@ -27,12 +27,12 @@ public:
     Shader(Shader &&rhs) noexcept = default;
     Shader &operator=(Shader &&rhs) noexcept = default;
 
-    void source(const std::string &src) const {
+    void source(const std::string &src) {
         auto ptr = src.c_str();
         glShaderSource(get_index(), 1, &ptr, nullptr);
     }
 
-    void compile() const {
+    void compile() {
         glCompileShader(get_index());
     }
 };

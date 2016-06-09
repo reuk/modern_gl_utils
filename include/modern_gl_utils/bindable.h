@@ -25,43 +25,43 @@ private:
 class Bindable : public IndexOwner {
 public:
     struct Scoped {
-        Scoped(const Bindable& t);
+        Scoped(Bindable& t);
         virtual ~Scoped() noexcept;
 
     private:
-        const Bindable& t;
+        Bindable& t;
     };
 
     using IndexOwner::IndexOwner;
     Bindable(Bindable&&) noexcept = default;
     Bindable& operator=(Bindable&&) noexcept = default;
 
-    virtual void do_bind(GLuint) const = 0;
+    virtual void do_bind(GLuint) = 0;
 
-    void bind() const;
-    void unbind() const;
+    void bind() ;
+    void unbind() ;
 
-    Scoped get_scoped() const;
+    Scoped get_scoped() ;
 };
 
 class Usable : public IndexOwner {
 public:
     struct Scoped {
-        Scoped(const Usable& t);
+        Scoped(Usable& t);
         virtual ~Scoped() noexcept;
 
     private:
-        const Usable& t;
+        Usable& t;
     };
 
     using IndexOwner::IndexOwner;
     Usable(Usable&&) noexcept = default;
     Usable& operator=(Usable&&) noexcept = default;
 
-    virtual void do_use(GLuint) const = 0;
+    virtual void do_use(GLuint) = 0;
 
-    void use() const;
-    void unuse() const;
+    void use() ;
+    void unuse() ;
 
-    Scoped get_scoped() const;
+    Scoped get_scoped() ;
 };

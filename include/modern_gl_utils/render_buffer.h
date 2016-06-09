@@ -17,7 +17,7 @@ public:
         glDeleteRenderbuffers(1, &get_index());
     }
 
-    void do_bind(GLuint index) const {
+    void do_bind(GLuint index) {
         glBindRenderbuffer(GL_RENDERBUFFER, index);
     }
 

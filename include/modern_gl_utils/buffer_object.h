@@ -19,7 +19,7 @@ public:
     BufferObject(BufferObject&&) noexcept = default;
     BufferObject& operator=(BufferObject&&) noexcept = default;
 
-    void do_bind(GLuint index) const override {
+    void do_bind(GLuint index) override {
         glBindBuffer(type, index);
     }
 

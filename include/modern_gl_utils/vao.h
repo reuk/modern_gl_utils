@@ -12,5 +12,5 @@ public:
     VAO(VAO&&) noexcept = default;
     VAO& operator=(VAO&&) noexcept = default;
 
-    void do_bind(GLuint) const override;
+    void do_bind(GLuint) override;
 };
