@@ -9,6 +9,6 @@ VAO::~VAO() {
     glDeleteVertexArrays(1, &get_index());
 }
 
-void VAO::do_bind(GLuint index) {
+void VAO::do_bind(GLuint index) const {
     glBindVertexArray(index);
 }

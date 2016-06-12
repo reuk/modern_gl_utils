@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
 #include <OpenGL/gl3.h>
+#include <memory>
 
 class IndexOwner {
 public:
@@ -15,21 +15,21 @@ public:
     IndexOwner& operator=(const IndexOwner&) noexcept = delete;
 
     bool valid() const;
-    const GLuint &get_index() const;
+    const GLuint& get_index() const;
     GLuint& get_index();
 
 private:
-    GLuint index {0};
+    GLuint index{0};
 };
 
 class Bindable : public IndexOwner {
 public:
     struct Scoped {
-        Scoped(Bindable& t);
+        Scoped(const Bindable& t);
         virtual ~Scoped() noexcept;
 
     private:
-        Bindable& t;
+        const Bindable& t;
     };
 
     using IndexOwner::IndexOwner;
@@ -38,8 +38,8 @@ public:
 
     virtual void do_bind(GLuint) const = 0;
 
-    void bind() const ;
-    void unbind() const ;
+    void bind() const;
+    void unbind() const;
 
     Scoped get_scoped() const;
 };
@@ -47,11 +47,11 @@ public:
 class Usable : public IndexOwner {
 public:
     struct Scoped {
-        Scoped(Usable& t);
+        Scoped(const Usable& t);
         virtual ~Scoped() noexcept;
 
     private:
-        Usable& t;
+        const Usable& t;
     };
 
     using IndexOwner::IndexOwner;
@@ -60,8 +60,8 @@ public:
 
     virtual void do_use(GLuint) const = 0;
 
-    void use() const ;
-    void unuse() const ;
+    void use() const;
+    void unuse() const;
 
     Scoped get_scoped() const;
 };

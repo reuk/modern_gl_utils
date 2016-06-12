@@ -1,10 +1,10 @@
 #pragma once
 
+#include "buffer_object.h"
 #include "drawable.h"
+#include "generic_shader.h"
 #include "scoped.h"
 #include "vao.h"
-#include "buffer_object.h"
-#include "generic_shader.h"
 
 #include "glm/glm.hpp"
 
@@ -18,50 +18,9 @@ public:
                    const std::vector<GLfloat> &c,
                    const std::vector<GLushort> &i)
             : shader_program(shader_program)
-            , size(i.size()) {
-        geometry.data(g);
-        colors.data(c);
-        ibo.data(i);
-
-        configure_vao();
-    }
-
-    StaticDrawable(const StaticDrawable &rhs) noexcept = delete;
-    StaticDrawable &operator=(const StaticDrawable &rhs) noexcept = delete;
-    StaticDrawable(StaticDrawable &&rhs) noexcept
-        : shader_program(rhs.shader_program),
-          geometry(std::move(rhs.geometry)),
-          colors(std::move(rhs.colors)),
-          ibo(std::move(rhs.ibo)),
-          size(rhs.size) {
-        configure_vao();
-    }
-
-    StaticDrawable &operator=(StaticDrawable &&rhs) noexcept {
-        shader_program = std::move(rhs.shader_program);
-        geometry = std::move(rhs.geometry);
-        colors = std::move(rhs.colors);
-        ibo = std::move(rhs.ibo);
-        size = rhs.size;
-
-        configure_vao();
-
-        return *this;
-    }
-
-    void set_model_matrix(const glm::mat4 &model_matrix) const {
-        shader_program.set_model_matrix(model_matrix);
-    }
-
-    void draw() const override {
-        ScopedBind<VAO> scoped(vao);
-        glDrawElements(mode, size, GL_UNSIGNED_SHORT, nullptr);
-    }
-
-    GenericShader &shader_program;
-
-private:
-    void configure_vao() {
+            , geometry(g)
+            , colors(c)
+            , ibo(i) {
         ScopedBind<VAO> scoped(vao);
 
         auto v_position = shader_program.get_attrib_location("v_position");
@@ -77,10 +36,25 @@ private:
         ibo.bind();
     }
 
+    StaticDrawable(const StaticDrawable &rhs) noexcept = delete;
+    StaticDrawable &operator=(const StaticDrawable &rhs) noexcept = delete;
+    StaticDrawable(StaticDrawable &&rhs) noexcept = default;
+    StaticDrawable &operator=(StaticDrawable &&rhs) noexcept = default;
+
+    void set_model_matrix(const glm::mat4 &model_matrix) const {
+        shader_program.set_model_matrix(model_matrix);
+    }
+
+    void draw() const override {
+        auto s = vao.get_scoped();
+        glDrawElements(mode, ibo.size(), GL_UNSIGNED_SHORT, nullptr);
+    }
+
+    GenericShader &shader_program;
+
+private:
     VAO vao;
     StaticVBO geometry;
     StaticVBO colors;
     StaticIBO ibo;
-
-    int size;
 };

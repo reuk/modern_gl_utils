@@ -18,11 +18,11 @@ Program::~Program() {
     glDeleteProgram(get_index());
 }
 
-void Program::link() {
+void Program::link() const {
     glLinkProgram(get_index());
 }
 
-void Program::do_use(GLuint index) {
+void Program::do_use(GLuint index) const {
     glUseProgram(index);
 }
 
@@ -231,58 +231,58 @@ bool Program::verify() const {
 }
 */
 
-void Program::set(const std::string& name, GLfloat a) {
+void Program::set(const std::string& name, GLfloat a) const {
     glUniform1f(get_uniform_location(name), a);
 }
-void Program::set(const std::string& name, GLfloat a, GLfloat b) {
+void Program::set(const std::string& name, GLfloat a, GLfloat b) const {
     glUniform2f(get_uniform_location(name), a, b);
 }
 void Program::set(const std::string& name,
                   GLfloat a,
                   GLfloat b,
-                  GLfloat c) {
+                  GLfloat c) const {
     glUniform3f(get_uniform_location(name), a, b, c);
 }
 void Program::set(
-    const std::string& name, GLfloat a, GLfloat b, GLfloat c, GLfloat d) {
+    const std::string& name, GLfloat a, GLfloat b, GLfloat c, GLfloat d) const {
     glUniform4f(get_uniform_location(name), a, b, c, d);
 }
 
-void Program::set(const std::string& name, GLint a) {
+void Program::set(const std::string& name, GLint a) const {
     glUniform1i(get_uniform_location(name), a);
 }
-void Program::set(const std::string& name, GLint a, GLint b) {
+void Program::set(const std::string& name, GLint a, GLint b) const {
     glUniform2i(get_uniform_location(name), a, b);
 }
-void Program::set(const std::string& name, GLint a, GLint b, GLint c) {
+void Program::set(const std::string& name, GLint a, GLint b, GLint c) const {
     glUniform3i(get_uniform_location(name), a, b, c);
 }
 void Program::set(
-    const std::string& name, GLint a, GLint b, GLint c, GLint d) {
+    const std::string& name, GLint a, GLint b, GLint c, GLint d) const {
     glUniform4i(get_uniform_location(name), a, b, c, d);
 }
 
-void Program::set(const std::string& name, glm::vec2 a) {
+void Program::set(const std::string& name, glm::vec2 a) const {
     glUniform2fv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
-void Program::set(const std::string& name, glm::vec3 a) {
+void Program::set(const std::string& name, glm::vec3 a) const {
     glUniform3fv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
-void Program::set(const std::string& name, glm::vec4 a) {
+void Program::set(const std::string& name, glm::vec4 a) const {
     glUniform4fv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
 
-void Program::set(const std::string& name, glm::ivec2 a) {
+void Program::set(const std::string& name, glm::ivec2 a) const {
     glUniform2iv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
-void Program::set(const std::string& name, glm::ivec3 a) {
+void Program::set(const std::string& name, glm::ivec3 a) const {
     glUniform3iv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
-void Program::set(const std::string& name, glm::ivec4 a) {
+void Program::set(const std::string& name, glm::ivec4 a) const {
     glUniform4iv(get_uniform_location(name), 1, glm::value_ptr(a));
 }
 
-void Program::set(const std::string& name, const glm::mat4& a) {
+void Program::set(const std::string& name, const glm::mat4& a) const {
     glUniformMatrix4fv(
         get_uniform_location(name), 1, GL_FALSE, glm::value_ptr(a));
 }

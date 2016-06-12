@@ -17,7 +17,7 @@ bool IndexOwner::valid() const {
     return index;
 }
 
-const GLuint &IndexOwner::get_index() const {
+const GLuint& IndexOwner::get_index() const {
     return index;
 }
 
@@ -27,35 +27,35 @@ GLuint& IndexOwner::get_index() {
 
 //----------------------------------------------------------------------------//
 
-void Bindable::bind() {
+void Bindable::bind() const {
     do_bind(get_index());
 }
 
-void Bindable::unbind() {
+void Bindable::unbind() const {
     do_bind(0);
 }
 
 //----------------------------------------------------------------------------//
 
-void Usable::use() {
+void Usable::use() const {
     do_use(get_index());
 }
 
-void Usable::unuse() {
+void Usable::unuse() const {
     do_use(0);
 }
 
 //----------------------------------------------------------------------------//
 
-Bindable::Scoped Bindable::get_scoped() {
+Bindable::Scoped Bindable::get_scoped() const {
     return Scoped(*this);
 }
 
-Usable::Scoped Usable::get_scoped() {
+Usable::Scoped Usable::get_scoped() const {
     return Scoped(*this);
 }
 
-Bindable::Scoped::Scoped(Bindable& t)
+Bindable::Scoped::Scoped(const Bindable& t)
         : t(t) {
     t.bind();
 }
@@ -64,7 +64,7 @@ Bindable::Scoped::~Scoped() noexcept {
     t.unbind();
 }
 
-Usable::Scoped::Scoped(Usable& t)
+Usable::Scoped::Scoped(const Usable& t)
         : t(t) {
     t.use();
 }

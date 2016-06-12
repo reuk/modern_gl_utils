@@ -12,14 +12,20 @@ public:
         glGenBuffers(1, &get_index());
     }
 
-    ~BufferObject() {
+    template <typename T>
+    BufferObject(const std::vector<T>& t)
+            : BufferObject() {
+        data(t);
+    }
+
+    virtual ~BufferObject() noexcept {
         glDeleteBuffers(1, &get_index());
     }
 
     BufferObject(BufferObject&&) noexcept = default;
     BufferObject& operator=(BufferObject&&) noexcept = default;
 
-    void do_bind(GLuint index) override {
+    void do_bind(GLuint index) const override {
         glBindBuffer(type, index);
     }
 
