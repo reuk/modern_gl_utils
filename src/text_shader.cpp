@@ -4,16 +4,8 @@ TextShader::TextShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
 
-void TextShader::set_model_matrix(const glm::mat4 &mat) const {
-    set("v_model", mat);
-}
-
-void TextShader::set_view_matrix(const glm::mat4 &mat) const {
-    set("v_view", mat);
-}
-
-void TextShader::set_projection_matrix(const glm::mat4 &mat) const {
-    set("v_projection", mat);
+void TextShader::set_tex(GLint i) const {
+    set("f_tex", i);
 }
 
 const std::string TextShader::vertex_shader(R"(

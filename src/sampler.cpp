@@ -5,12 +5,21 @@ Sampler::Sampler()
     glGenSamplers(1, &get_index());
 }
 
+Sampler::Sampler(GLuint where)
+        : Sampler() {
+    set_where(where);
+}
+
 Sampler::~Sampler() {
     glDeleteSamplers(1, &get_index());
 }
 
 void Sampler::set_where(GLuint w) {
     where = w;
+}
+
+GLuint Sampler::get_where() const {
+    return where;
 }
 
 void Sampler::do_bind(GLuint ind) const {
