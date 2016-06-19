@@ -4,6 +4,8 @@
 
 #include <OpenGL/gl3.h>
 
+namespace mglu {
+
 class VAO : public Bindable {
 public:
     VAO();
@@ -14,3 +16,5 @@ public:
 
     void do_bind(GLuint) const override;
 };
+
+}  // namespace mglu

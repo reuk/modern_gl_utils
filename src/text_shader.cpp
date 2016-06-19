@@ -1,5 +1,7 @@
 #include "modern_gl_utils/text_shader.h"
 
+namespace mglu {
+
 TextShader::TextShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
@@ -28,3 +30,5 @@ void main() {
     frag_color = vec4(vec3(1.0), texture(f_tex, f_uv).r) * vec4(1.0, 1.0, 1.0, 1.0);
 }
 )");
+
+}  // namespace mglu

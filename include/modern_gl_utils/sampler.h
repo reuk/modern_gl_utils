@@ -4,6 +4,8 @@
 
 #include <vector>
 
+namespace mglu {
+
 class Sampler : public Bindable {
 public:
     Sampler();
@@ -20,3 +22,5 @@ public:
 private:
     GLuint where;
 };
+
+}  // namespace mglu

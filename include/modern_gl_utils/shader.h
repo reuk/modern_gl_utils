@@ -7,6 +7,8 @@
 #include <stdexcept>
 #include <string>
 
+namespace mglu {
+
 template <GLuint type>
 class Shader : public IndexOwner {
 public:
@@ -39,3 +41,5 @@ public:
 
 using VertexShader = Shader<GL_VERTEX_SHADER>;
 using FragmentShader = Shader<GL_FRAGMENT_SHADER>;
+
+}  // namespace mglu

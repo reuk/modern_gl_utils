@@ -6,6 +6,8 @@
 #include "render_buffer.h"
 #include "texture_object.h"
 
+namespace mglu {
+
 template <GLuint mode>
 class FBO : public Bindable {
 public:
@@ -38,3 +40,5 @@ public:
 using ReadDrawFBO = FBO<GL_FRAMEBUFFER>;
 using ReadFBO = FBO<GL_READ_FRAMEBUFFER>;
 using DrawFBO = FBO<GL_DRAW_FRAMEBUFFER>;
+
+}  // namespace mglu

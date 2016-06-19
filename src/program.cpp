@@ -7,6 +7,8 @@
 #include <map>
 #include <vector>
 
+namespace mglu {
+
 Program::Program()
         : Usable(glCreateProgram()) {
     if (get_index() == 0) {
@@ -286,3 +288,5 @@ void Program::set(const std::string& name, const glm::mat4& a) const {
     glUniformMatrix4fv(
         get_uniform_location(name), 1, GL_FALSE, glm::value_ptr(a));
 }
+
+}  // namespace mglu

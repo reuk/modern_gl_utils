@@ -1,5 +1,7 @@
 #include "modern_gl_utils/sampler.h"
 
+namespace mglu {
+
 Sampler::Sampler()
         : Bindable(0) {
     glGenSamplers(1, &get_index());
@@ -29,3 +31,5 @@ void Sampler::do_bind(GLuint ind) const {
 void Sampler::parameter_i(GLuint a, GLuint b) const {
     glSamplerParameteri(get_index(), a, b);
 }
+
+}  // namespace mglu

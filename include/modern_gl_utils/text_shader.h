@@ -5,6 +5,8 @@
 
 #include "glm/glm.hpp"
 
+namespace mglu {
+
 class TextShader : public ShaderProgram {
 public:
     TextShader();
@@ -14,3 +16,5 @@ private:
     static const std::string vertex_shader;
     static const std::string fragment_shader;
 };
+
+}  // namespace mglu

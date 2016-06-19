@@ -4,6 +4,8 @@
 
 #include <vector>
 
+namespace mglu {
+
 template <GLuint type, GLuint mode>
 class BufferObject : public Bindable {
 public:
@@ -71,3 +73,5 @@ using StaticVBO = BufferObject<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
 using StaticIBO = BufferObject<GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW>;
 using DynamicVBO = BufferObject<GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
 using DynamicIBO = BufferObject<GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
+
+}  // namespace mglu

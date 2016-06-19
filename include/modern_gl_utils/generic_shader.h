@@ -4,6 +4,8 @@
 
 #include "glm/glm.hpp"
 
+namespace mglu {
+
 class GenericShader : public ShaderProgram {
 public:
     GenericShader();
@@ -16,3 +18,5 @@ private:
     static const std::string vertex_shader;
     static const std::string fragment_shader;
 };
+
+}  // namespace mglu

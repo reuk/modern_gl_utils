@@ -2,7 +2,7 @@
 
 #include "shader_program.h"
 
-#include "glm/glm.hpp"
+namespace mglu {
 
 class QuadShader : public ShaderProgram {
 public:
@@ -12,3 +12,5 @@ private:
     static const std::string vertex_shader;
     static const std::string fragment_shader;
 };
+
+}  // namespace mglu

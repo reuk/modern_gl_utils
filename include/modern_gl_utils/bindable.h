@@ -3,6 +3,8 @@
 #include <OpenGL/gl3.h>
 #include <memory>
 
+namespace mglu {
+
 class IndexOwner {
 public:
     IndexOwner(GLuint index);
@@ -65,3 +67,5 @@ public:
 
     Scoped get_scoped() const;
 };
+
+}  // namespace mglu
