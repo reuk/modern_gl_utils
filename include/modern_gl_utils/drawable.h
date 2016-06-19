@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glm/glm.hpp"
+#include "glm/fwd.hpp"
 
 class Drawable {
 public:
@@ -11,21 +11,9 @@ public:
     Drawable& operator=(Drawable&&) noexcept = default;
     virtual ~Drawable() noexcept = default;
 
-    virtual void draw() const = 0;
-};
-
-class MatrixTreeNode {
-public:
-    MatrixTreeNode(const MatrixTreeNode* parent);
-    MatrixTreeNode(const MatrixTreeNode&) = default;
-    MatrixTreeNode& operator=(const MatrixTreeNode&) = default;
-    MatrixTreeNode(MatrixTreeNode&&) noexcept = default;
-    MatrixTreeNode& operator=(MatrixTreeNode&&) noexcept = default;
-    virtual ~MatrixTreeNode() noexcept = default;
-
-    virtual glm::mat4 get_local_modelview_matrix() const = 0;
-    glm::mat4 get_modelview_matrix() const;
+    void draw(const glm::mat4& modelview_matrix) const;
 
 private:
-    const MatrixTreeNode* parent;
+    virtual void do_draw(const glm::mat4& modelview_matrix) const = 0;
+    virtual glm::mat4 get_local_modelview_matrix() const = 0;
 };
