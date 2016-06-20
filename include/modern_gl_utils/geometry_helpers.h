@@ -5,5 +5,9 @@
 
 #include <vector>
 
-std::vector<GLfloat> format(const std::vector<glm::vec3> &points);
-std::vector<GLushort> indices(int points);
+template<typename T>
+std::vector<T> compute_indices(size_t num) {
+    std::vector<T> ret(num);
+    std::iota(ret.begin(), ret.end(), 0);
+    return ret;
+}
