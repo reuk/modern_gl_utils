@@ -5,6 +5,8 @@
 #include "glm/glm.hpp"
 #include <OpenGL/gl3.h>
 
+namespace mglu {
+
 template <GLuint mode>
 class RenderBuffer : public Bindable {
 public:
@@ -27,3 +29,5 @@ public:
 };
 
 using DepthBuffer = RenderBuffer<GL_DEPTH_STENCIL>;
+
+}  // namespace mglu

@@ -1,10 +1,11 @@
 #include "modern_gl_utils/drawable.h"
 
-DrawableObject::DrawableObject(DrawableObject* parent)
-        : parent(parent) {
+#include "glm/glm.hpp"
+
+namespace mglu {
+
+void Drawable::draw(const glm::mat4& modelview_matrix) const {
+    do_draw(modelview_matrix * get_local_modelview_matrix());
 }
 
-glm::mat4 DrawableObject::get_modelview_matrix() const {
-    return (parent ? parent->get_modelview_matrix() : glm::mat4{}) *
-           get_local_modelview_matrix();
-}
+}  // namespace mglu

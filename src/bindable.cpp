@@ -1,5 +1,7 @@
 #include "modern_gl_utils/bindable.h"
 
+namespace mglu {
+
 IndexOwner::IndexOwner(GLuint index)
         : index(index) {
 }
@@ -72,3 +74,5 @@ Usable::Scoped::Scoped(const Usable& t)
 Usable::Scoped::~Scoped() noexcept {
     t.unuse();
 }
+
+}  // namespace mglu

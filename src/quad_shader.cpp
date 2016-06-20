@@ -1,5 +1,7 @@
 #include "modern_gl_utils/quad_shader.h"
 
+namespace mglu {
+
 QuadShader::QuadShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
@@ -23,3 +25,5 @@ void main() {
     frag_color = texture(f_texture, UV);
 }
 )");
+
+}  // namespace mglu

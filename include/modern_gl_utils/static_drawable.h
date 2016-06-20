@@ -10,6 +10,8 @@
 
 #include <vector>
 
+namespace mglu {
+
 template <GLuint mode>
 class StaticDrawable : public Drawable {
 public:
@@ -58,3 +60,5 @@ private:
     StaticVBO colors;
     StaticIBO ibo;
 };
+
+}  // namespace mglu

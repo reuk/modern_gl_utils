@@ -1,6 +1,8 @@
 #pragma once
 
-#include "glm/glm.hpp"
+#include "glm/fwd.hpp"
+
+namespace mglu {
 
 class Drawable {
 public:
@@ -11,17 +13,11 @@ public:
     Drawable& operator=(Drawable&&) noexcept = default;
     virtual ~Drawable() noexcept = default;
 
-    virtual void draw() const = 0;
-};
-
-class DrawableObject : public Drawable {
-public:
-    DrawableObject(DrawableObject* parent)
-            : parent(parent) {}
-
-    virtual glm::mat4 get_local_modelview_matrix() const = 0;
-    glm::mat4 get_modelview_matrix() const;
+    void draw(const glm::mat4& modelview_matrix) const;
 
 private:
-    DrawableObject* parent;
+    virtual void do_draw(const glm::mat4& modelview_matrix) const = 0;
+    virtual glm::mat4 get_local_modelview_matrix() const = 0;
 };
+
+}  // namespace mglu

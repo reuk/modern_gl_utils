@@ -1,5 +1,7 @@
 #pragma once
 
+namespace mglu {
+
 class Updatable {
 public:
     Updatable() = default;
@@ -11,3 +13,5 @@ public:
 
     virtual void update(float dt) = 0;
 };
+
+}  // namespace mglu

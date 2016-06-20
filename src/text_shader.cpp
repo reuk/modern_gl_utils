@@ -1,19 +1,13 @@
 #include "modern_gl_utils/text_shader.h"
 
+namespace mglu {
+
 TextShader::TextShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
 
-void TextShader::set_model_matrix(const glm::mat4 &mat) const {
-    set("v_model", mat);
-}
-
-void TextShader::set_view_matrix(const glm::mat4 &mat) const {
-    set("v_view", mat);
-}
-
-void TextShader::set_projection_matrix(const glm::mat4 &mat) const {
-    set("v_projection", mat);
+void TextShader::set_tex(GLint i) const {
+    set("f_tex", i);
 }
 
 const std::string TextShader::vertex_shader(R"(
@@ -36,3 +30,5 @@ void main() {
     frag_color = vec4(vec3(1.0), texture(f_tex, f_uv).r) * vec4(1.0, 1.0, 1.0, 1.0);
 }
 )");
+
+}  // namespace mglu

@@ -2,6 +2,8 @@
 
 #include <string>
 
+namespace mglu {
+
 ShaderProgram::ShaderProgram(const std::string& vs, const std::string& fs) {
     FragmentShader f;
     f.source(fs);
@@ -15,3 +17,5 @@ ShaderProgram::ShaderProgram(const std::string& vs, const std::string& fs) {
     attach(v);
     link();
 }
+
+}  // namespace mglu

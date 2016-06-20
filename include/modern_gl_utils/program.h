@@ -7,6 +7,8 @@
 
 #include <string>
 
+namespace mglu {
+
 class Program : public Usable {
 public:
     Program();
@@ -51,3 +53,5 @@ public:
 
     void set(const std::string& name, const glm::mat4&) const;
 };
+
+}  // namespace mglu

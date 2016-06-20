@@ -2,6 +2,8 @@
 
 #include "glm/gtc/type_ptr.hpp"
 
+namespace mglu {
+
 GenericShader::GenericShader()
         : ShaderProgram(vertex_shader, fragment_shader) {
 }
@@ -41,3 +43,5 @@ void main() {
     frag_color = f_color;
 }
 )");
+
+}  // namespace mglu

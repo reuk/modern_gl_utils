@@ -8,6 +8,8 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 
+namespace mglu {
+
 class ScreenQuad {
 public:
     ScreenQuad(const QuadShader& shader) {
@@ -38,3 +40,5 @@ private:
     VAO vao;
     StaticVBO vertex_bo;
 };
+
+}  // namespace mglu

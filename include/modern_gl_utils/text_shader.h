@@ -5,15 +5,16 @@
 
 #include "glm/glm.hpp"
 
+namespace mglu {
+
 class TextShader : public ShaderProgram {
 public:
     TextShader();
-
-    void set_model_matrix(const glm::mat4 &mat) const;
-    void set_view_matrix(const glm::mat4 &mat) const;
-    void set_projection_matrix(const glm::mat4 &mat) const;
+    void set_tex(GLint i) const;
 
 private:
     static const std::string vertex_shader;
     static const std::string fragment_shader;
 };
+
+}  // namespace mglu

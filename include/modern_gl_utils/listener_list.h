@@ -3,6 +3,8 @@
 #include <memory>
 #include <unordered_set>
 
+namespace mglu {
+
 template <typename Listener,
           typename Ptr = Listener *,
           typename Collection = std::unordered_set<Ptr>>
@@ -32,3 +34,5 @@ public:
 private:
     Collection listener;
 };
+
+}  // namespace mglu

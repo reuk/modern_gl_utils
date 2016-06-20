@@ -4,6 +4,8 @@
 
 #include "glm/glm.hpp"
 
+namespace mglu {
+
 class TextureObject : public Bindable {
 public:
     TextureObject()
@@ -40,3 +42,5 @@ public:
         glTexParameterf(GL_TEXTURE_2D, pname, param);
     }
 };
+
+}  // namespace mglu
