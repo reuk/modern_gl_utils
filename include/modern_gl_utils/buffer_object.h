@@ -20,6 +20,11 @@ public:
         data(begin, end);
     }
 
+    template <typename T>
+    BufferObject(const T& t)
+            : BufferObject(std::begin(t), std::end(t)) {
+    }
+
     virtual ~BufferObject() noexcept {
         glDeleteBuffers(1, &get_index());
     }
@@ -50,6 +55,11 @@ public:
         } else {
             glBufferSubData(type, 0, buffer_size(), begin);
         }
+    }
+
+    template<typename T>
+    void data(const T& t) {
+        data(std::begin(t), std::end(t));
     }
 
     size_t size() const {
