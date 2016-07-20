@@ -14,10 +14,10 @@ public:
         glGenBuffers(1, &get_index());
     }
 
-    template <typename T>
-    BufferObject(const std::vector<T>& t)
+    template <typename It>
+    BufferObject(It begin, It end)
             : BufferObject() {
-        data(t);
+        data(begin, end);
     }
 
     virtual ~BufferObject() noexcept {
@@ -37,18 +37,18 @@ public:
         glBufferData(type, elements, nullptr, mode);
     }
 
-    template <typename T>
-    void data(const std::vector<T>& t) {
+    template <typename It>
+    void data(It begin, It end) {
         auto s = get_scoped();
-        auto in_element = sizeof(T);
-        auto in_elements = t.size();
+        auto in_element = sizeof(*begin);
+        auto in_elements = std::distance(begin, end);
         auto in_buffer_size = in_element * in_elements;
         if (in_buffer_size != buffer_size()) {
             element = in_element;
             elements = in_elements;
-            glBufferData(type, buffer_size(), t.data(), mode);
+            glBufferData(type, buffer_size(), begin, mode);
         } else {
-            glBufferSubData(type, 0, buffer_size(), t.data());
+            glBufferSubData(type, 0, buffer_size(), begin);
         }
     }
 
