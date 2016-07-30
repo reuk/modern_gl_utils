@@ -3,14 +3,14 @@
 namespace mglu {
 
 TextShader::TextShader()
-        : ShaderProgram(vertex_shader, fragment_shader) {
+        : program(Program::from_sources(vertex_shader, fragment_shader)) {
 }
 
 void TextShader::set_tex(GLint i) const {
-    set("f_tex", i);
+    program.set("f_tex", i);
 }
 
-const std::string TextShader::vertex_shader(R"(
+const char* TextShader::vertex_shader(R"(
 #version 330
 in vec2 v_position;
 in vec2 v_uv;
@@ -21,7 +21,7 @@ void main() {
 }
 )");
 
-const std::string TextShader::fragment_shader(R"(
+const char* TextShader::fragment_shader(R"(
 #version 330
 in vec2 f_uv;
 out vec4 frag_color;

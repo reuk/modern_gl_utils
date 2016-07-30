@@ -3,17 +3,13 @@
 namespace mglu {
 
 Sampler::Sampler()
-        : Bindable(0) {
-    glGenSamplers(1, &get_index());
+        : bindable([](auto& i) { glGenSamplers(1, &i); },
+                   [](auto i) { glDeleteSamplers(1, &i); }) {
 }
 
 Sampler::Sampler(GLuint where)
         : Sampler() {
     set_where(where);
-}
-
-Sampler::~Sampler() {
-    glDeleteSamplers(1, &get_index());
 }
 
 void Sampler::set_where(GLuint w) {
@@ -29,7 +25,7 @@ void Sampler::do_bind(GLuint ind) const {
 }
 
 void Sampler::parameter_i(GLuint a, GLuint b) const {
-    glSamplerParameteri(get_index(), a, b);
+    glSamplerParameteri(get_handle(), a, b);
 }
 
 }  // namespace mglu

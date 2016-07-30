@@ -10,18 +10,11 @@
 namespace mglu {
 
 Program::Program()
-        : Usable(glCreateProgram()) {
-    if (get_index() == 0) {
-        throw std::runtime_error("failed to create shader program");
-    }
-}
-
-Program::~Program() {
-    glDeleteProgram(get_index());
+        : usable(glCreateProgram(), [](auto i) { glDeleteProgram(i); }) {
 }
 
 void Program::link() const {
-    glLinkProgram(get_index());
+    glLinkProgram(get_handle());
 }
 
 void Program::do_use(GLuint index) const {
@@ -29,7 +22,7 @@ void Program::do_use(GLuint index) const {
 }
 
 GLint Program::get_attrib_location(const std::string& name) const {
-    auto ret = glGetAttribLocation(get_index(), name.c_str());
+    auto ret = glGetAttribLocation(get_handle(), name.c_str());
     /*
     if (ret == -1)
         Logger::log_err("no such attrib: ", name);
@@ -38,7 +31,7 @@ GLint Program::get_attrib_location(const std::string& name) const {
 }
 
 GLint Program::get_uniform_location(const std::string& name) const {
-    auto ret = glGetUniformLocation(get_index(), name.c_str());
+    auto ret = glGetUniformLocation(get_handle(), name.c_str());
     /*
     if (ret == -1)
         Logger::log_err("no such uniform: ", name);

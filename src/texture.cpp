@@ -3,12 +3,8 @@
 namespace mglu {
 
 Texture::Texture()
-        : Bindable(0) {
-    glGenTextures(1, &get_index());
-}
-
-Texture::~Texture() {
-    glDeleteTextures(1, &get_index());
+        : bindable([](auto& i) { glGenTextures(1, &i); },
+                   [](auto i) { glDeleteTextures(1, &i); }) {
 }
 
 void Texture::do_bind(GLuint index) const {
@@ -16,7 +12,7 @@ void Texture::do_bind(GLuint index) const {
 }
 
 void Texture::data(GLsizei w, GLsizei h, GLubyte* t) const {
-    auto s = get_scoped();
+    auto s = get_scoped(*this);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, t);
 }
 

@@ -2,77 +2,93 @@
 
 namespace mglu {
 
-IndexOwner::IndexOwner(GLuint index)
-        : index(index) {
+gl_resource_handle::gl_resource_handle(GLuint handle,
+                                       const releaser_func& releaser)
+        : handle(handle)
+        , releaser(releaser) {
 }
 
-IndexOwner::IndexOwner(IndexOwner&& rhs) noexcept {
-    std::swap(index, rhs.index);
+gl_resource_handle::gl_resource_handle(const constructor_func& constructor,
+                                       const releaser_func& releaser)
+        : gl_resource_handle(
+              [&constructor] {
+                  GLuint i;
+                  constructor(i);
+                  return i;
+              }(),
+              releaser) {
 }
 
-IndexOwner& IndexOwner::operator=(IndexOwner&& rhs) noexcept {
-    std::swap(index, rhs.index);
+gl_resource_handle::~gl_resource_handle() noexcept {
+    releaser(handle);
+}
+
+gl_resource_handle::gl_resource_handle(gl_resource_handle&& rhs) noexcept {
+    swap(rhs);
+}
+
+gl_resource_handle& gl_resource_handle::operator=(
+    gl_resource_handle&& rhs) noexcept {
+    swap(rhs);
     return *this;
 }
 
-bool IndexOwner::valid() const {
-    return index;
+void gl_resource_handle::swap(gl_resource_handle& rhs) noexcept {
+    using std::swap;
+    swap(handle, rhs.handle);
+    swap(releaser, rhs.releaser);
 }
 
-const GLuint& IndexOwner::get_index() const {
-    return index;
+GLuint gl_resource_handle::get_handle() const {
+    return handle;
 }
 
-GLuint& IndexOwner::get_index() {
-    return index;
+bool gl_resource_handle::valid() const {
+    return handle;
 }
 
 //----------------------------------------------------------------------------//
 
-void Bindable::bind() const {
-    do_bind(get_index());
+bindable::scoped::scoped(const bindable& t)
+        : t(t) {
+    t.bind();
+}
+bindable::scoped::~scoped() noexcept {
+    t.unbind();
 }
 
-void Bindable::unbind() const {
+void bindable::bind() const {
+    do_bind(get_handle());
+}
+void bindable::unbind() const {
     do_bind(0);
 }
 
 //----------------------------------------------------------------------------//
 
-void Usable::use() const {
-    do_use(get_index());
+usable::scoped::scoped(const usable& t)
+        : t(t) {
+    t.use();
+}
+usable::scoped::~scoped() noexcept {
+    t.unuse();
 }
 
-void Usable::unuse() const {
+void usable::use() const {
+    do_use(get_handle());
+}
+void usable::unuse() const {
     do_use(0);
 }
 
 //----------------------------------------------------------------------------//
 
-Bindable::Scoped Bindable::get_scoped() const {
-    return Scoped(*this);
+bindable::scoped get_scoped(const bindable& u) {
+    return bindable::scoped(u);
 }
 
-Usable::Scoped Usable::get_scoped() const {
-    return Scoped(*this);
-}
-
-Bindable::Scoped::Scoped(const Bindable& t)
-        : t(t) {
-    t.bind();
-}
-
-Bindable::Scoped::~Scoped() noexcept {
-    t.unbind();
-}
-
-Usable::Scoped::Scoped(const Usable& t)
-        : t(t) {
-    t.use();
-}
-
-Usable::Scoped::~Scoped() noexcept {
-    t.unuse();
+usable::scoped get_scoped(const usable& u) {
+    return usable::scoped(u);
 }
 
 }  // namespace mglu
