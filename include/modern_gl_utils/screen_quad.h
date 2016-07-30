@@ -10,9 +10,9 @@
 
 namespace mglu {
 
-class ScreenQuad {
+class ScreenQuad final {
 public:
-    ScreenQuad(const QuadShader& shader) {
+    ScreenQuad(const Program& shader) {
         std::vector<glm::vec3> vertices{
             {-1, -1, 0},
             {1, -1, 0},
@@ -23,7 +23,7 @@ public:
         };
         vertex_bo.data(vertices);
 
-        auto s_vao = vao.get_scoped();
+        auto s_vao = get_scoped(vao);
 
         vertex_bo.bind();
         auto v_pos = shader.get_attrib_location("v_position");
@@ -32,7 +32,7 @@ public:
     }
 
     void draw() const {
-        auto s_vao = vao.get_scoped();
+        auto s_vao = get_scoped(vao);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 

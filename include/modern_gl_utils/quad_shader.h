@@ -1,16 +1,18 @@
 #pragma once
 
-#include "shader_program.h"
+#include "program.h"
 
 namespace mglu {
 
-class QuadShader : public ShaderProgram {
+class QuadShader final {
 public:
     QuadShader();
 
 private:
-    static const std::string vertex_shader;
-    static const std::string fragment_shader;
+    static const char* vertex_shader;
+    static const char* fragment_shader;
+
+    Program program;
 };
 
 }  // namespace mglu

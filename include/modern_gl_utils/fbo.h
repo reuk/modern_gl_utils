@@ -9,31 +9,28 @@
 namespace mglu {
 
 template <GLuint mode>
-class FBO : public Bindable {
+class FBO final : public bindable {
 public:
     FBO()
-            : Bindable(0) {
-        glGenFramebuffers(1, &get_index());
-    }
-
-    virtual ~FBO() {
-        glDeleteFramebuffers(1, &get_index());
-    }
-
-    void do_bind(GLuint index) const override {
-        glBindFramebuffer(mode, index);
+            : bindable([](auto& i) { glGenFramebuffers(1, &i); },
+                       [](auto i) { glDeleteFramebuffers(1, &i); }) {
     }
 
     void depthbuffer(const DepthBuffer& buffer) const {
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,
                                   GL_DEPTH_STENCIL_ATTACHMENT,
                                   GL_RENDERBUFFER,
-                                  buffer.get_index());
+                                  buffer.get_handle());
     }
 
     void texture(const TextureObject& texture, GLenum attachment) const {
         glFramebufferTexture(
-            GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
+            GL_FRAMEBUFFER, attachment, texture.get_handle(), 0);
+    }
+
+private:
+    void do_bind(GLuint index) const override {
+        glBindFramebuffer(mode, index);
     }
 };
 

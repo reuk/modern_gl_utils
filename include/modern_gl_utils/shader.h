@@ -10,17 +10,13 @@
 namespace mglu {
 
 template <GLuint type>
-class Shader : public IndexOwner {
+class Shader final {
 public:
     Shader()
-            : IndexOwner(glCreateShader(type)) {
-        if (get_index() == 0) {
+            : handle(glCreateShader(type), [](auto i) { glDeleteShader(i); }) {
+        if (!handle.valid()) {
             throw std::runtime_error("failed to create shader");
         }
-    }
-
-    virtual ~Shader() {
-        glDeleteShader(get_index());
     }
 
     Shader(const Shader &rhs) = delete;
@@ -31,12 +27,19 @@ public:
 
     void source(const std::string &src) const {
         auto ptr = src.c_str();
-        glShaderSource(get_index(), 1, &ptr, nullptr);
+        glShaderSource(handle.get_handle(), 1, &ptr, nullptr);
     }
 
     void compile() const {
-        glCompileShader(get_index());
+        glCompileShader(handle.get_handle());
     }
+
+    constexpr auto get_handle() const {
+        return handle.get_handle();
+    }
+
+private:
+    gl_resource_handle handle;
 };
 
 using VertexShader = Shader<GL_VERTEX_SHADER>;

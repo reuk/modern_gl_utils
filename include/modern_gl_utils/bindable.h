@@ -1,71 +1,93 @@
 #pragma once
 
 #include <OpenGL/gl3.h>
+#include <functional>
 #include <memory>
 
 namespace mglu {
 
-class IndexOwner {
+class gl_resource_handle {
 public:
-    IndexOwner(GLuint index);
-    virtual ~IndexOwner() noexcept = default;
+    using constructor_func = std::function<void(GLuint&)>;
+    using releaser_func = std::function<void(GLuint)>;
+    gl_resource_handle(GLuint handle, const releaser_func& releaser);
+    gl_resource_handle(const constructor_func& constructor,
+                       const releaser_func& releaser);
+protected:
+    ~gl_resource_handle() noexcept;
 
-    IndexOwner(IndexOwner&&) noexcept;
-    IndexOwner& operator=(IndexOwner&&) noexcept;
+public:
+    gl_resource_handle(const gl_resource_handle&) = delete;
+    gl_resource_handle& operator=(const gl_resource_handle&) = delete;
 
-    IndexOwner(const IndexOwner&) noexcept = delete;
-    IndexOwner& operator=(const IndexOwner&) noexcept = delete;
+    gl_resource_handle(gl_resource_handle&& rhs) noexcept;
+    gl_resource_handle& operator=(gl_resource_handle&& rhs) noexcept;
 
+    void swap(gl_resource_handle& rhs) noexcept;
+
+    GLuint get_handle() const;
     bool valid() const;
-    const GLuint& get_index() const;
-    GLuint& get_index();
 
 private:
-    GLuint index{0};
+    GLuint handle;
+    releaser_func releaser;
 };
 
-class Bindable : public IndexOwner {
+//----------------------------------------------------------------------------//
+
+class bindable : public gl_resource_handle {
 public:
-    struct Scoped {
-        Scoped(const Bindable& t);
-        virtual ~Scoped() noexcept;
+    class scoped final {
+    public:
+        scoped(const bindable& t);
+        ~scoped() noexcept;
 
     private:
-        const Bindable& t;
+        const bindable& t;
     };
 
-    using IndexOwner::IndexOwner;
-    Bindable(Bindable&&) noexcept = default;
-    Bindable& operator=(Bindable&&) noexcept = default;
+    using gl_resource_handle::gl_resource_handle;
 
-    virtual void do_bind(GLuint) const = 0;
+    bindable(bindable&&) noexcept = default;
+    bindable& operator=(bindable&&) noexcept = default;
 
     void bind() const;
     void unbind() const;
 
-    Scoped get_scoped() const;
+protected:
+    ~bindable() noexcept = default;
+
+private:
+    virtual void do_bind(GLuint) const = 0;
 };
 
-class Usable : public IndexOwner {
+bindable::scoped get_scoped(const bindable& u);
+
+class usable : public gl_resource_handle {
 public:
-    struct Scoped {
-        Scoped(const Usable& t);
-        virtual ~Scoped() noexcept;
+    class scoped final {
+    public:
+        scoped(const usable& t);
+        ~scoped() noexcept;
 
     private:
-        const Usable& t;
+        const usable& t;
     };
 
-    using IndexOwner::IndexOwner;
-    Usable(Usable&&) noexcept = default;
-    Usable& operator=(Usable&&) noexcept = default;
-
-    virtual void do_use(GLuint) const = 0;
+    using gl_resource_handle::gl_resource_handle;
+    usable(usable&&) noexcept = default;
+    usable& operator=(usable&&) noexcept = default;
 
     void use() const;
     void unuse() const;
 
-    Scoped get_scoped() const;
+protected:
+    ~usable() noexcept = default;
+
+private:
+    virtual void do_use(GLuint) const = 0;
 };
+
+usable::scoped get_scoped(const usable& u);
 
 }  // namespace mglu

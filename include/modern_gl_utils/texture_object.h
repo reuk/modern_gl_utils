@@ -6,19 +6,11 @@
 
 namespace mglu {
 
-class TextureObject : public Bindable {
+class TextureObject final : public bindable {
 public:
     TextureObject()
-            : Bindable(0) {
-        glGenTextures(1, &get_index());
-    }
-
-    virtual ~TextureObject() {
-        glDeleteTextures(1, &get_index());
-    }
-
-    void do_bind(GLuint index) const override {
-        glBindTexture(GL_TEXTURE_2D, index);
+            : bindable([](auto& i) { glGenTextures(1, &i); },
+                       [](auto i) { glDeleteTextures(1, &i); }) {
     }
 
     void image(glm::ivec2 size) const {
@@ -40,6 +32,11 @@ public:
 
     void parameter(GLenum pname, GLfloat param) const {
         glTexParameterf(GL_TEXTURE_2D, pname, param);
+    }
+
+private:
+    void do_bind(GLuint index) const override {
+        glBindTexture(GL_TEXTURE_2D, index);
     }
 };
 

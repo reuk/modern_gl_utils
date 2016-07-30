@@ -6,7 +6,7 @@
 
 namespace mglu {
 
-class VAO : public Bindable {
+class VAO : public bindable {
 public:
     VAO();
     virtual ~VAO();
@@ -14,6 +14,7 @@ public:
     VAO(VAO&&) noexcept = default;
     VAO& operator=(VAO&&) noexcept = default;
 
+private:
     void do_bind(GLuint) const override;
 };
 

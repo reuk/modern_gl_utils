@@ -7,11 +7,11 @@
 namespace mglu {
 
 template <GLuint type, GLuint mode>
-class BufferObject : public Bindable {
+class BufferObject final : public bindable {
 public:
     BufferObject()
-            : Bindable(0) {
-        glGenBuffers(1, &get_index());
+            : bindable([](auto& i) { glGenBuffers(1, &i); },
+                       [](auto i) { glDeleteBuffers(1, &i); }) {
     }
 
     template <typename It>
@@ -25,39 +25,31 @@ public:
             : BufferObject(std::begin(t), std::end(t)) {
     }
 
-    virtual ~BufferObject() noexcept {
-        glDeleteBuffers(1, &get_index());
-    }
-
     BufferObject(BufferObject&&) noexcept = default;
     BufferObject& operator=(BufferObject&&) noexcept = default;
 
-    void do_bind(GLuint index) const override {
-        glBindBuffer(type, index);
-    }
-
     void clear() {
-        auto s = get_scoped();
+        auto s = get_scoped(*this);
         elements = 0;
         glBufferData(type, elements, nullptr, mode);
     }
 
     template <typename It>
     void data(It begin, It end) {
-        auto s = get_scoped();
+        auto s = get_scoped(*this);
         auto in_element = sizeof(*begin);
         auto in_elements = std::distance(begin, end);
         auto in_buffer_size = in_element * in_elements;
         if (in_buffer_size != buffer_size()) {
             element = in_element;
             elements = in_elements;
-            glBufferData(type, buffer_size(), begin, mode);
+            glBufferData(type, buffer_size(), &(*begin), mode);
         } else {
-            glBufferSubData(type, 0, buffer_size(), begin);
+            glBufferSubData(type, 0, buffer_size(), &(*begin));
         }
     }
 
-    template<typename T>
+    template <typename T>
     void data(const T& t) {
         data(std::begin(t), std::end(t));
     }
@@ -71,10 +63,14 @@ public:
     }
 
     size_t buffer_size() const {
-        return size() * element_size();
+        return element * elements;
     }
 
 private:
+    void do_bind(GLuint index) const override {
+        glBindBuffer(type, index);
+    }
+
     size_t element{0};
     size_t elements{0};
 };
