@@ -8,6 +8,7 @@ vao::vao()
 }
 
 void vao::enable_vertex_attrib_array(GLuint i) const {
+    bind();
     glEnableVertexAttribArray(i);
     check_for_gl_error();
 }
