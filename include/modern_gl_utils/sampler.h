@@ -6,11 +6,10 @@
 
 namespace mglu {
 
-class Sampler final : public bindable {
+class sampler final : public bindable {
 public:
-    Sampler();
-    Sampler(GLuint where);
-    virtual ~Sampler();
+    sampler();
+    sampler(GLuint where);
 
     void set_where(GLuint where);
     GLuint get_where() const;

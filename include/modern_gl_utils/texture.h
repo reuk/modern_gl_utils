@@ -6,10 +6,9 @@
 
 namespace mglu {
 
-class Texture final : public bindable {
+class texture final : public bindable {
 public:
-    Texture();
-    virtual ~Texture();
+    texture();
 
     void data(GLsizei w, GLsizei h, GLubyte* t) const;
 

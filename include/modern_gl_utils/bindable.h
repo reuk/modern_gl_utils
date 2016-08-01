@@ -6,17 +6,17 @@
 
 namespace mglu {
 
-class gl_resource_handle {
+class gl_resource_handle final {
 public:
     using constructor_func = std::function<void(GLuint&)>;
     using releaser_func = std::function<void(GLuint)>;
+
     gl_resource_handle(GLuint handle, const releaser_func& releaser);
     gl_resource_handle(const constructor_func& constructor,
                        const releaser_func& releaser);
-protected:
+
     ~gl_resource_handle() noexcept;
 
-public:
     gl_resource_handle(const gl_resource_handle&) = delete;
     gl_resource_handle& operator=(const gl_resource_handle&) = delete;
 
@@ -29,13 +29,13 @@ public:
     bool valid() const;
 
 private:
-    GLuint handle;
+    GLuint handle{0};
     releaser_func releaser;
 };
 
 //----------------------------------------------------------------------------//
 
-class bindable : public gl_resource_handle {
+class bindable {
 public:
     class scoped final {
     public:
@@ -46,24 +46,29 @@ public:
         const bindable& t;
     };
 
-    using gl_resource_handle::gl_resource_handle;
+    bindable(GLuint handle, const gl_resource_handle::releaser_func& releaser);
+    bindable(const gl_resource_handle::constructor_func& constructor,
+             const gl_resource_handle::releaser_func& releaser);
 
     bindable(bindable&&) noexcept = default;
     bindable& operator=(bindable&&) noexcept = default;
 
+    GLuint get_handle() const;
+
     void bind() const;
     void unbind() const;
+    scoped get_scoped() const;
 
 protected:
     ~bindable() noexcept = default;
 
 private:
     virtual void do_bind(GLuint) const = 0;
+
+    gl_resource_handle handle;
 };
 
-bindable::scoped get_scoped(const bindable& u);
-
-class usable : public gl_resource_handle {
+class usable {
 public:
     class scoped final {
     public:
@@ -74,20 +79,26 @@ public:
         const usable& t;
     };
 
-    using gl_resource_handle::gl_resource_handle;
+    usable(GLuint handle, const gl_resource_handle::releaser_func& releaser);
+    usable(const gl_resource_handle::constructor_func& constructor,
+           const gl_resource_handle::releaser_func& releaser);
+
     usable(usable&&) noexcept = default;
     usable& operator=(usable&&) noexcept = default;
 
+    GLuint get_handle() const;
+
     void use() const;
     void unuse() const;
+    scoped get_scoped() const;
 
 protected:
     ~usable() noexcept = default;
 
 private:
     virtual void do_use(GLuint) const = 0;
-};
 
-usable::scoped get_scoped(const usable& u);
+    gl_resource_handle handle;
+};
 
 }  // namespace mglu

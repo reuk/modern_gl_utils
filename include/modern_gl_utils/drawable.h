@@ -4,14 +4,14 @@
 
 namespace mglu {
 
-class Drawable {
+class drawable {
 public:
-    Drawable() = default;
-    Drawable(const Drawable&) = default;
-    Drawable& operator=(const Drawable&) = default;
-    Drawable(Drawable&&) noexcept = default;
-    Drawable& operator=(Drawable&&) noexcept = default;
-    virtual ~Drawable() noexcept = default;
+    drawable() = default;
+    drawable(const drawable&) = default;
+    drawable& operator=(const drawable&) = default;
+    drawable(drawable&&) noexcept = default;
+    drawable& operator=(drawable&&) noexcept = default;
+    virtual ~drawable() noexcept = default;
 
     void draw(const glm::mat4& modelview_matrix) const;
 

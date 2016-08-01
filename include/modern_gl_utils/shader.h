@@ -10,39 +10,45 @@
 namespace mglu {
 
 template <GLuint type>
-class Shader final {
+class shader final {
 public:
-    Shader()
+    shader()
             : handle(glCreateShader(type), [](auto i) { glDeleteShader(i); }) {
-        if (!handle.valid()) {
-            throw std::runtime_error("failed to create shader");
-        }
     }
-
-    Shader(const Shader &rhs) = delete;
-    void operator=(const Shader &rhs) = delete;
-
-    Shader(Shader &&rhs) noexcept = default;
-    Shader &operator=(Shader &&rhs) noexcept = default;
 
     void source(const std::string &src) const {
         auto ptr = src.c_str();
-        glShaderSource(handle.get_handle(), 1, &ptr, nullptr);
+        glShaderSource(get_handle(), 1, &ptr, nullptr);
     }
 
     void compile() const {
-        glCompileShader(handle.get_handle());
+        glCompileShader(get_handle());
+        iv_throw_if_false<GL_COMPILE_STATUS>();
     }
 
-    constexpr auto get_handle() const {
+    template <GLenum flag>
+    auto get_iv() const {
+        return checking::get_shader_iv<flag>(get_handle());
+    }
+
+    template<GLenum flag>
+    void iv_throw_if_false() const {
+        checking::shader_iv_throw_if_false<flag>(get_handle());
+    }
+
+    auto get_handle() const {
         return handle.get_handle();
+    }
+
+    std::string get_info_log() const {
+        return checking::get_shader_info_log(get_handle());
     }
 
 private:
     gl_resource_handle handle;
 };
 
-using VertexShader = Shader<GL_VERTEX_SHADER>;
-using FragmentShader = Shader<GL_FRAGMENT_SHADER>;
+using vertex_shader = shader<GL_VERTEX_SHADER>;
+using fragment_shader = shader<GL_FRAGMENT_SHADER>;
 
 }  // namespace mglu

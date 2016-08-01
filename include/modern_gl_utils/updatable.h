@@ -2,14 +2,14 @@
 
 namespace mglu {
 
-class Updatable {
+class updatable {
 public:
-    Updatable() = default;
-    Updatable(const Updatable&) = default;
-    Updatable& operator=(const Updatable&) = default;
-    Updatable(Updatable&&) noexcept = default;
-    Updatable& operator=(Updatable&&) noexcept = default;
-    virtual ~Updatable() noexcept = default;
+    updatable() = default;
+    updatable(const updatable&) = default;
+    updatable& operator=(const updatable&) = default;
+    updatable(updatable&&) noexcept = default;
+    updatable& operator=(updatable&&) noexcept = default;
+    virtual ~updatable() noexcept = default;
 
     virtual void update(float dt) = 0;
 };

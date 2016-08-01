@@ -7,16 +7,16 @@
 
 namespace mglu {
 
-class TextShader final {
+class text_shader final {
 public:
-    TextShader();
+    text_shader();
     void set_tex(GLint i) const;
 
 private:
     static const char* vertex_shader;
     static const char* fragment_shader;
 
-    Program program;
+    program program;
 };
 
 }  // namespace mglu

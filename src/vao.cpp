@@ -2,12 +2,22 @@
 
 namespace mglu {
 
-VAO::VAO()
+vao::vao()
         : bindable([](auto& i) { glGenVertexArrays(1, &i); },
                    [](auto i) { glDeleteVertexArrays(1, &i); }) {
 }
 
-void VAO::do_bind(GLuint index) const {
+void vao::enable_vertex_attrib_array(GLuint i) const {
+    glEnableVertexAttribArray(i);
+    check_for_gl_error();
+}
+
+void vao::disable_vertex_attrib_array(GLuint i) const {
+    bind();
+    glDisableVertexAttribArray(i);
+}
+
+void vao::do_bind(GLuint index) const {
     glBindVertexArray(index);
 }
 

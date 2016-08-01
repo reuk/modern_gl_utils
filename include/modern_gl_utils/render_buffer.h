@@ -8,9 +8,9 @@
 namespace mglu {
 
 template <GLuint mode>
-class RenderBuffer final : public bindable {
+class render_buffer final : public bindable {
 public:
-    RenderBuffer()
+    render_buffer()
             : bindable([](auto& i) { glGenRenderbuffers(1, &i); },
                        [](auto i) { glDeleteRenderbuffers(i); }) {
     }
@@ -25,6 +25,6 @@ private:
     }
 };
 
-using DepthBuffer = RenderBuffer<GL_DEPTH_STENCIL>;
+using depth_buffer = render_buffer<GL_DEPTH_STENCIL>;
 
 }  // namespace mglu

@@ -13,7 +13,7 @@ set(modern_gl_utils_VERSION 0.0.1)
 
 include(GenerateExportHeader)
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -std=c++14")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Werror -std=c++14")
 
 set(name modern_gl_utils)
 file(GLOB sources "src/*.cpp")
@@ -24,9 +24,7 @@ SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
 
-add_library(${name} STATIC ${sources})
-
-set(GLM_INCLUDE_DIR "" CACHE PATH "Path to glm includes")
+add_library(${name} STATIC ${sources} ${headers})
 
 target_include_directories(${name}
     PUBLIC
@@ -34,17 +32,9 @@ target_include_directories(${name}
     $<INSTALL_INTERFACE:include>
     PRIVATE
     src
-    ${GLM_INCLUDE_DIR}
-    "/usr/local/include/"
 )
 
-set(libraries
-    ${OPENGL_LIBRARIES}
-    ${FREETYPE_LIBRARIES})
-
-if(UNIX)
-    set(libraries ${libraries} png z)
-endif(UNIX)
+set(libraries ${OPENGL_LIBRARIES} glm)
 
 target_link_libraries(
     ${name}

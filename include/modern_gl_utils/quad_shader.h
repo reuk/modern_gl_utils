@@ -4,15 +4,15 @@
 
 namespace mglu {
 
-class QuadShader final {
+class quad_shader final {
 public:
-    QuadShader();
+    quad_shader();
 
 private:
     static const char* vertex_shader;
     static const char* fragment_shader;
 
-    Program program;
+    program program;
 };
 
 }  // namespace mglu

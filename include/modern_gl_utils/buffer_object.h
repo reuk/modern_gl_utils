@@ -7,26 +7,26 @@
 namespace mglu {
 
 template <GLuint type, GLuint mode>
-class BufferObject final : public bindable {
+class buffer_object final : public bindable {
 public:
-    BufferObject()
+    buffer_object()
             : bindable([](auto& i) { glGenBuffers(1, &i); },
                        [](auto i) { glDeleteBuffers(1, &i); }) {
     }
 
     template <typename It>
-    BufferObject(It begin, It end)
-            : BufferObject() {
+    buffer_object(It begin, It end)
+            : buffer_object() {
         data(begin, end);
     }
 
     template <typename T>
-    BufferObject(const T& t)
-            : BufferObject(std::begin(t), std::end(t)) {
+    buffer_object(const T& t)
+            : buffer_object(std::begin(t), std::end(t)) {
     }
 
-    BufferObject(BufferObject&&) noexcept = default;
-    BufferObject& operator=(BufferObject&&) noexcept = default;
+    buffer_object(buffer_object&&) noexcept = default;
+    buffer_object& operator=(buffer_object&&) noexcept = default;
 
     void clear() {
         auto s = get_scoped(*this);
@@ -36,7 +36,7 @@ public:
 
     template <typename It>
     void data(It begin, It end) {
-        auto s = get_scoped(*this);
+        auto s = get_scoped();
         auto in_element = sizeof(*begin);
         auto in_elements = std::distance(begin, end);
         auto in_buffer_size = in_element * in_elements;
@@ -75,9 +75,9 @@ private:
     size_t elements{0};
 };
 
-using StaticVBO = BufferObject<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
-using StaticIBO = BufferObject<GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW>;
-using DynamicVBO = BufferObject<GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
-using DynamicIBO = BufferObject<GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
+using static_vbo = buffer_object<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
+using static_ibo = buffer_object<GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW>;
+using dynamic_vbo = buffer_object<GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
+using dynamic_ibo = buffer_object<GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
 
 }  // namespace mglu

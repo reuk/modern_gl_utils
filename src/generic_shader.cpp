@@ -4,23 +4,23 @@
 
 namespace mglu {
 
-GenericShader::GenericShader()
-        : program(Program::from_sources(vertex_shader, fragment_shader)) {
+generic_shader::generic_shader()
+        : program(program::from_sources(vertex_shader, fragment_shader)) {
 }
 
-void GenericShader::set_model_matrix(const glm::mat4 &mat) const {
+void generic_shader::set_model_matrix(const glm::mat4 &mat) const {
     program.set("v_model", mat);
 }
 
-void GenericShader::set_view_matrix(const glm::mat4 &mat) const {
+void generic_shader::set_view_matrix(const glm::mat4 &mat) const {
     program.set("v_view", mat);
 }
 
-void GenericShader::set_projection_matrix(const glm::mat4 &mat) const {
+void generic_shader::set_projection_matrix(const glm::mat4 &mat) const {
     program.set("v_projection", mat);
 }
 
-const char *GenericShader::vertex_shader(R"(
+const char *generic_shader::vertex_shader(R"(
 #version 150
 in vec3 v_position;
 in vec4 v_color;
@@ -35,7 +35,7 @@ void main() {
 }
 )");
 
-const char *GenericShader::fragment_shader(R"(
+const char *generic_shader::fragment_shader(R"(
 #version 150
 in vec4 f_color;
 out vec4 frag_color;

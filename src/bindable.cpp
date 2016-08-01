@@ -1,4 +1,7 @@
 #include "modern_gl_utils/bindable.h"
+#include "modern_gl_utils/exceptions.h"
+
+#include <stdexcept>
 
 namespace mglu {
 
@@ -6,6 +9,9 @@ gl_resource_handle::gl_resource_handle(GLuint handle,
                                        const releaser_func& releaser)
         : handle(handle)
         , releaser(releaser) {
+    if (!handle) {
+        throw std::runtime_error("handle is null!");
+    }
 }
 
 gl_resource_handle::gl_resource_handle(const constructor_func& constructor,
@@ -20,7 +26,9 @@ gl_resource_handle::gl_resource_handle(const constructor_func& constructor,
 }
 
 gl_resource_handle::~gl_resource_handle() noexcept {
-    releaser(handle);
+    if (releaser) {
+        releaser(handle);
+    }
 }
 
 gl_resource_handle::gl_resource_handle(gl_resource_handle&& rhs) noexcept {
@@ -40,6 +48,9 @@ void gl_resource_handle::swap(gl_resource_handle& rhs) noexcept {
 }
 
 GLuint gl_resource_handle::get_handle() const {
+    if (!valid()) {
+        throw std::runtime_error("tried to use an invalid resource handle");
+    }
     return handle;
 }
 
@@ -48,6 +59,22 @@ bool gl_resource_handle::valid() const {
 }
 
 //----------------------------------------------------------------------------//
+
+bindable::bindable(GLuint handle,
+                   const gl_resource_handle::releaser_func& releaser)
+        : handle(handle, releaser) {
+    check_for_gl_error();
+}
+
+bindable::bindable(const gl_resource_handle::constructor_func& constructor,
+                   const gl_resource_handle::releaser_func& releaser)
+        : handle(constructor, releaser) {
+    check_for_gl_error();
+}
+
+GLuint bindable::get_handle() const {
+    return handle.get_handle();
+}
 
 bindable::scoped::scoped(const bindable& t)
         : t(t) {
@@ -58,13 +85,32 @@ bindable::scoped::~scoped() noexcept {
 }
 
 void bindable::bind() const {
-    do_bind(get_handle());
+    do_bind(handle.get_handle());
+    check_for_gl_error();
 }
 void bindable::unbind() const {
     do_bind(0);
 }
+bindable::scoped bindable::get_scoped() const {
+    return scoped(*this);
+}
 
 //----------------------------------------------------------------------------//
+
+usable::usable(GLuint handle, const gl_resource_handle::releaser_func& releaser)
+        : handle(handle, releaser) {
+    check_for_gl_error();
+}
+
+usable::usable(const gl_resource_handle::constructor_func& constructor,
+               const gl_resource_handle::releaser_func& releaser)
+        : handle(constructor, releaser) {
+    check_for_gl_error();
+}
+
+GLuint usable::get_handle() const {
+    return handle.get_handle();
+}
 
 usable::scoped::scoped(const usable& t)
         : t(t) {
@@ -75,20 +121,13 @@ usable::scoped::~scoped() noexcept {
 }
 
 void usable::use() const {
-    do_use(get_handle());
+    do_use(handle.get_handle());
 }
 void usable::unuse() const {
     do_use(0);
 }
-
-//----------------------------------------------------------------------------//
-
-bindable::scoped get_scoped(const bindable& u) {
-    return bindable::scoped(u);
-}
-
-usable::scoped get_scoped(const usable& u) {
-    return usable::scoped(u);
+usable::scoped usable::get_scoped() const {
+    return scoped(*this);
 }
 
 }  // namespace mglu
