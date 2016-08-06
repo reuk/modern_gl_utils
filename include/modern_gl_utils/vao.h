@@ -15,10 +15,7 @@ public:
     void enable_vertex_attrib_array(GLuint) const;
     void disable_vertex_attrib_array(GLuint) const;
 
-    void vertex_attrib_pointer(GLuint pos, GLint size, GLenum type) const {
-        glVertexAttribPointer(pos, size, type, GL_FALSE, 0, nullptr);
-        check_for_gl_error();
-    }
+    void vertex_attrib_pointer(GLuint pos, GLint size, GLenum type) const;
 
 private:
     void do_bind(GLuint) const override;

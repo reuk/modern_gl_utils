@@ -22,4 +22,9 @@ void vao::do_bind(GLuint index) const {
     glBindVertexArray(index);
 }
 
+void vao::vertex_attrib_pointer(GLuint pos, GLint size, GLenum type) const {
+    glVertexAttribPointer(pos, size, type, GL_FALSE, 0, nullptr);
+    check_for_gl_error();
+}
+
 }  // namespace mglu

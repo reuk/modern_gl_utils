@@ -1,6 +1,7 @@
 #pragma once
 
-#include <OpenGL/gl3.h>
+#include "modern_gl_utils/exceptions.h"
+
 #include <functional>
 #include <memory>
 
@@ -11,9 +12,8 @@ public:
     using constructor_func = std::function<void(GLuint&)>;
     using releaser_func = std::function<void(GLuint)>;
 
-    gl_resource_handle(GLuint handle, const releaser_func& releaser);
-    gl_resource_handle(const constructor_func& constructor,
-                       const releaser_func& releaser);
+    gl_resource_handle(GLuint handle, releaser_func releaser);
+    gl_resource_handle(constructor_func constructor, releaser_func releaser);
 
     ~gl_resource_handle() noexcept;
 
@@ -35,20 +35,36 @@ private:
 
 //----------------------------------------------------------------------------//
 
-class bindable {
+class scoped_from_this {
+    class scoped;
+
 public:
+    scoped get_scoped() const;
+
+protected:
+    ~scoped_from_this() noexcept = default;
+
+private:
     class scoped final {
     public:
-        scoped(const bindable& t);
+        scoped(const scoped_from_this& t);
         ~scoped() noexcept;
 
     private:
-        const bindable& t;
+        const scoped_from_this& t;
     };
 
-    bindable(GLuint handle, const gl_resource_handle::releaser_func& releaser);
-    bindable(const gl_resource_handle::constructor_func& constructor,
-             const gl_resource_handle::releaser_func& releaser);
+    virtual void on_scope_begin() const = 0;
+    virtual void on_scope_end() const = 0;
+};
+
+//----------------------------------------------------------------------------//
+
+class bindable : public scoped_from_this {
+public:
+    bindable(GLuint handle, gl_resource_handle::releaser_func releaser);
+    bindable(gl_resource_handle::constructor_func constructor,
+             gl_resource_handle::releaser_func releaser);
 
     bindable(bindable&&) noexcept = default;
     bindable& operator=(bindable&&) noexcept = default;
@@ -57,7 +73,6 @@ public:
 
     void bind() const;
     void unbind() const;
-    scoped get_scoped() const;
 
 protected:
     ~bindable() noexcept = default;
@@ -65,23 +80,19 @@ protected:
 private:
     virtual void do_bind(GLuint) const = 0;
 
+    void on_scope_begin() const override;
+    void on_scope_end() const override;
+
     gl_resource_handle handle;
 };
 
-class usable {
+//----------------------------------------------------------------------------//
+
+class usable : public scoped_from_this {
 public:
-    class scoped final {
-    public:
-        scoped(const usable& t);
-        ~scoped() noexcept;
-
-    private:
-        const usable& t;
-    };
-
-    usable(GLuint handle, const gl_resource_handle::releaser_func& releaser);
-    usable(const gl_resource_handle::constructor_func& constructor,
-           const gl_resource_handle::releaser_func& releaser);
+    usable(GLuint handle, gl_resource_handle::releaser_func releaser);
+    usable(gl_resource_handle::constructor_func constructor,
+           gl_resource_handle::releaser_func releaser);
 
     usable(usable&&) noexcept = default;
     usable& operator=(usable&&) noexcept = default;
@@ -90,13 +101,15 @@ public:
 
     void use() const;
     void unuse() const;
-    scoped get_scoped() const;
 
 protected:
     ~usable() noexcept = default;
 
 private:
     virtual void do_use(GLuint) const = 0;
+
+    void on_scope_begin() const override;
+    void on_scope_end() const override;
 
     gl_resource_handle handle;
 };

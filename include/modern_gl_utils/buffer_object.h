@@ -2,6 +2,7 @@
 
 #include "bindable.h"
 
+#include <cassert>
 #include <vector>
 
 namespace mglu {
@@ -14,56 +15,71 @@ public:
                        [](auto i) { glDeleteBuffers(1, &i); }) {
     }
 
-    template <typename It>
-    buffer_object(It begin, It end)
+    template <typename T>
+    buffer_object(const T* ptr, size_t items)
             : buffer_object() {
-        data(begin, end);
+        data(ptr, items);
     }
 
     template <typename T>
     buffer_object(const T& t)
-            : buffer_object(std::begin(t), std::end(t)) {
+            : buffer_object(t.data(), t.size()) {
     }
 
     buffer_object(buffer_object&&) noexcept = default;
     buffer_object& operator=(buffer_object&&) noexcept = default;
 
     void clear() {
-        auto s = get_scoped(*this);
-        elements = 0;
-        glBufferData(type, elements, nullptr, mode);
+        const auto s = this->get_scoped();
+        element_size = 0;
+        num_elements = 0;
+        glBufferData(type, num_elements, nullptr, mode);
     }
 
-    template <typename It>
-    void data(It begin, It end) {
-        auto s = get_scoped();
-        auto in_element = sizeof(*begin);
-        auto in_elements = std::distance(begin, end);
-        auto in_buffer_size = in_element * in_elements;
-        if (in_buffer_size != buffer_size()) {
-            element = in_element;
-            elements = in_elements;
-            glBufferData(type, buffer_size(), &(*begin), mode);
+    template <typename T>
+    void sub_data(size_t item_offset, const T* ptr, size_t items) {
+        const auto in_buffer_bytes = sizeof(T) * items;
+        const auto byte_offset = sizeof(T) * item_offset;
+
+        assert(byte_offset + in_buffer_bytes <= size_in_bytes());
+
+        const auto s = this->get_scoped();
+        glBufferSubData(type, byte_offset, in_buffer_bytes, ptr);
+    }
+
+    template <typename T>
+    void sub_data(size_t item_offset, const T& t) {
+        sub_data(item_offset, t.data(), t.size());
+    }
+
+    template <typename T>
+    void data(const T* ptr, size_t items) {
+        if (items == num_elements) {
+            sub_data(0, ptr, items);
         } else {
-            glBufferSubData(type, 0, buffer_size(), &(*begin));
+            element_size = sizeof(T);
+            num_elements = items;
+
+            const auto s = this->get_scoped();
+            glBufferData(type, size_in_bytes(), ptr, mode);
         }
     }
 
     template <typename T>
     void data(const T& t) {
-        data(std::begin(t), std::end(t));
+        data(t.data(), t.size());
     }
 
     size_t size() const {
-        return elements;
+        return num_elements;
     }
 
-    size_t element_size() const {
-        return element;
+    size_t size_in_bytes() const {
+        return element_size * num_elements;
     }
 
-    size_t buffer_size() const {
-        return element * elements;
+    size_t get_element_size() const {
+        return element_size;
     }
 
 private:
@@ -71,8 +87,8 @@ private:
         glBindBuffer(type, index);
     }
 
-    size_t element{0};
-    size_t elements{0};
+    size_t element_size{0};
+    size_t num_elements{0};
 };
 
 using static_vbo = buffer_object<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
