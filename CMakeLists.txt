@@ -13,7 +13,8 @@ set(modern_gl_utils_VERSION 0.0.1)
 
 include(GenerateExportHeader)
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Werror -std=c++14")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 file(GLOB_RECURSE sources "src/*.cpp")
 file(GLOB_RECURSE headers "include/*.h")
@@ -44,12 +45,11 @@ set_property(TARGET modern_gl_utils PROPERTY INTERFACE_${name}_MAJOR_VERSION 0)
 set_property(TARGET modern_gl_utils APPEND PROPERTY COMPATIBLE_INTERFACE_STRING ${name}_MAJOR_VERSION)
 
 install(TARGETS modern_gl_utils EXPORT modern_gl_utilsTargets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include)
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib)
 install(FILES ${headers} "${CMAKE_CURRENT_BINARY_DIR}/modern_gl_utils_export.h"
-    DESTINATION modern_gl_utils COMPONENT Devel)
+    DESTINATION include/modern_gl_utils COMPONENT Devel)
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
