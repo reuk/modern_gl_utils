@@ -15,8 +15,8 @@ include(GenerateExportHeader)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Werror -std=c++14")
 
-file(GLOB sources "src/*.cpp")
-file(GLOB headers "include/modern_gl_utils/*.h")
+file(GLOB_RECURSE sources "src/*.cpp")
+file(GLOB_RECURSE headers "include/*.h")
 
 SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 
@@ -49,7 +49,7 @@ install(TARGETS modern_gl_utils EXPORT modern_gl_utilsTargets
     RUNTIME DESTINATION bin
     INCLUDES DESTINATION include)
 install(FILES ${headers} "${CMAKE_CURRENT_BINARY_DIR}/modern_gl_utils_export.h"
-    DESTINATION include/modern_gl_utils COMPONENT Devel)
+    DESTINATION modern_gl_utils COMPONENT Devel)
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
