@@ -15,48 +15,35 @@ include(GenerateExportHeader)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -std=c++14")
 
-set(name modern_gl_utils)
 file(GLOB sources "src/*.cpp")
 file(GLOB headers "include/modern_gl_utils/*.h")
 
 SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 
-find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(glm REQUIRED)
 
-add_library(${name} STATIC ${sources})
+add_library(modern_gl_utils STATIC ${sources} ${headers})
 
-set(GLM_INCLUDE_DIR "" CACHE PATH "Path to glm includes")
-
-target_include_directories(${name}
+target_include_directories(modern_gl_utils
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+    ${GLM_INCLUDE_DIRS}
     PRIVATE
     src
-    ${GLM_INCLUDE_DIR}
-    "/usr/local/include/"
 )
 
-set(libraries
-    ${OPENGL_LIBRARIES}
-    ${FREETYPE_LIBRARIES})
+target_link_libraries(modern_gl_utils ${OPENGL_LIBRARIES})
 
-if(UNIX)
-    set(libraries ${libraries} png z)
-endif(UNIX)
+generate_export_header(modern_gl_utils)
+set_property(TARGET modern_gl_utils PROPERTY VERSION ${modern_gl_utils_VERSION})
+set_property(TARGET modern_gl_utils PROPERTY SOVERSION 0)
+set_property(TARGET modern_gl_utils PROPERTY INTERFACE_${name}_MAJOR_VERSION 0)
+set_property(TARGET modern_gl_utils APPEND PROPERTY COMPATIBLE_INTERFACE_STRING ${name}_MAJOR_VERSION)
 
-target_link_libraries(
-    ${name}
-    ${libraries})
-
-generate_export_header(${name})
-set_property(TARGET ${name} PROPERTY VERSION ${modern_gl_utils_VERSION})
-set_property(TARGET ${name} PROPERTY SOVERSION 0)
-set_property(TARGET ${name} PROPERTY INTERFACE_${name}_MAJOR_VERSION 0)
-set_property(TARGET ${name} APPEND PROPERTY COMPATIBLE_INTERFACE_STRING ${name}_MAJOR_VERSION)
-
-install(TARGETS ${name} EXPORT modern_gl_utilsTargets
+install(TARGETS modern_gl_utils EXPORT modern_gl_utilsTargets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
