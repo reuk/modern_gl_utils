@@ -9,36 +9,33 @@
 namespace mglu {
 
 template <GLuint mode>
-class FBO : public Bindable {
+class fbo final : public bindable {
 public:
-    FBO()
-            : Bindable(0) {
-        glGenFramebuffers(1, &get_index());
+    fbo()
+            : bindable([](auto& i) { glGenFramebuffers(1, &i); },
+                       [](auto i) { glDeleteFramebuffers(1, &i); }) {
     }
 
-    virtual ~FBO() {
-        glDeleteFramebuffers(1, &get_index());
-    }
-
-    void do_bind(GLuint index) const override {
-        glBindFramebuffer(mode, index);
-    }
-
-    void depthbuffer(const DepthBuffer& buffer) const {
+    void depthbuffer(const depth_buffer& buffer) const {
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,
                                   GL_DEPTH_STENCIL_ATTACHMENT,
                                   GL_RENDERBUFFER,
-                                  buffer.get_index());
+                                  buffer.get_handle());
     }
 
-    void texture(const TextureObject& texture, GLenum attachment) const {
+    void texture(const texture_object& texture, GLenum attachment) const {
         glFramebufferTexture(
-            GL_FRAMEBUFFER, attachment, texture.get_index(), 0);
+            GL_FRAMEBUFFER, attachment, texture.get_handle(), 0);
+    }
+
+private:
+    void do_bind(GLuint index) const override {
+        glBindFramebuffer(mode, index);
     }
 };
 
-using ReadDrawFBO = FBO<GL_FRAMEBUFFER>;
-using ReadFBO = FBO<GL_READ_FRAMEBUFFER>;
-using DrawFBO = FBO<GL_DRAW_FRAMEBUFFER>;
+using read_draw_fbo = fbo<GL_FRAMEBUFFER>;
+using read_fbo = fbo<GL_READ_FRAMEBUFFER>;
+using draw_fbo = fbo<GL_DRAW_FRAMEBUFFER>;
 
 }  // namespace mglu

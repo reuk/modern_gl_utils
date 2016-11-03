@@ -2,34 +2,30 @@
 
 namespace mglu {
 
-Sampler::Sampler()
-        : Bindable(0) {
-    glGenSamplers(1, &get_index());
+sampler::sampler()
+        : bindable([](auto& i) { glGenSamplers(1, &i); },
+                   [](auto i) { glDeleteSamplers(1, &i); }) {
 }
 
-Sampler::Sampler(GLuint where)
-        : Sampler() {
+sampler::sampler(GLuint where)
+        : sampler() {
     set_where(where);
 }
 
-Sampler::~Sampler() {
-    glDeleteSamplers(1, &get_index());
-}
-
-void Sampler::set_where(GLuint w) {
+void sampler::set_where(GLuint w) {
     where = w;
 }
 
-GLuint Sampler::get_where() const {
+GLuint sampler::get_where() const {
     return where;
 }
 
-void Sampler::do_bind(GLuint ind) const {
+void sampler::do_bind(GLuint ind) const {
     glBindSampler(where, ind);
 }
 
-void Sampler::parameter_i(GLuint a, GLuint b) const {
-    glSamplerParameteri(get_index(), a, b);
+void sampler::parameter_i(GLuint a, GLuint b) const {
+    glSamplerParameteri(get_handle(), a, b);
 }
 
 }  // namespace mglu

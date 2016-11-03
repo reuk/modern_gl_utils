@@ -2,17 +2,29 @@
 
 namespace mglu {
 
-VAO::VAO()
-        : Bindable(0) {
-    glGenVertexArrays(1, &get_index());
+vao::vao()
+        : bindable([](auto& i) { glGenVertexArrays(1, &i); },
+                   [](auto i) { glDeleteVertexArrays(1, &i); }) {
 }
 
-VAO::~VAO() {
-    glDeleteVertexArrays(1, &get_index());
+void vao::enable_vertex_attrib_array(GLuint i) const {
+    bind();
+    glEnableVertexAttribArray(i);
+    check_for_gl_error();
 }
 
-void VAO::do_bind(GLuint index) const {
+void vao::disable_vertex_attrib_array(GLuint i) const {
+    bind();
+    glDisableVertexAttribArray(i);
+}
+
+void vao::do_bind(GLuint index) const {
     glBindVertexArray(index);
+}
+
+void vao::vertex_attrib_pointer(GLuint pos, GLint size, GLenum type) const {
+    glVertexAttribPointer(pos, size, type, GL_FALSE, 0, nullptr);
+    check_for_gl_error();
 }
 
 }  // namespace mglu

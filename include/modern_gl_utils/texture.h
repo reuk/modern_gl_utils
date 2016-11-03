@@ -6,13 +6,14 @@
 
 namespace mglu {
 
-class Texture : public Bindable {
+class texture final : public bindable {
 public:
-    Texture();
-    virtual ~Texture();
+    texture();
 
-    void do_bind(GLuint) const override;
     void data(GLsizei w, GLsizei h, GLubyte* t) const;
+
+private:
+    void do_bind(GLuint) const override;
 };
 
 }  // namespace mglu

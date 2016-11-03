@@ -6,20 +6,19 @@
 
 namespace mglu {
 
-class Sampler : public Bindable {
+class sampler final : public bindable {
 public:
-    Sampler();
-    Sampler(GLuint where);
-    virtual ~Sampler();
+    sampler();
+    sampler(GLuint where);
 
     void set_where(GLuint where);
     GLuint get_where() const;
 
-    void do_bind(GLuint) const override;
-
     void parameter_i(GLuint, GLuint) const;
 
 private:
+    void do_bind(GLuint) const override;
+
     GLuint where;
 };
 

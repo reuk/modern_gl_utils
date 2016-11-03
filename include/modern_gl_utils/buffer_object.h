@@ -2,76 +2,98 @@
 
 #include "bindable.h"
 
+#include <cassert>
 #include <vector>
 
 namespace mglu {
 
 template <GLuint type, GLuint mode>
-class BufferObject : public Bindable {
+class buffer_object final : public bindable {
 public:
-    BufferObject()
-            : Bindable(0) {
-        glGenBuffers(1, &get_index());
+    buffer_object()
+            : bindable([](auto& i) { glGenBuffers(1, &i); },
+                       [](auto i) { glDeleteBuffers(1, &i); }) {
     }
 
     template <typename T>
-    BufferObject(const std::vector<T>& t)
-            : BufferObject() {
-        data(t);
+    buffer_object(const T* ptr, size_t items)
+            : buffer_object() {
+        data(ptr, items);
     }
 
-    virtual ~BufferObject() noexcept {
-        glDeleteBuffers(1, &get_index());
+    template <typename T>
+    buffer_object(const T& t)
+            : buffer_object(t.data(), t.size()) {
     }
 
-    BufferObject(BufferObject&&) noexcept = default;
-    BufferObject& operator=(BufferObject&&) noexcept = default;
+    buffer_object(buffer_object&&) noexcept = default;
+    buffer_object& operator=(buffer_object&&) noexcept = default;
 
+    void clear() {
+        const auto s = this->get_scoped();
+        element_size = 0;
+        num_elements = 0;
+        glBufferData(type, num_elements, nullptr, mode);
+    }
+
+    template <typename T>
+    void sub_data(size_t item_offset, const T* ptr, size_t items) {
+        const auto in_buffer_bytes = sizeof(T) * items;
+        const auto byte_offset = sizeof(T) * item_offset;
+
+        assert(byte_offset + in_buffer_bytes <= size_in_bytes());
+
+        const auto s = this->get_scoped();
+        glBufferSubData(type, byte_offset, in_buffer_bytes, ptr);
+    }
+
+    template <typename T>
+    void sub_data(size_t item_offset, const T& t) {
+        sub_data(item_offset, t.data(), t.size());
+    }
+
+    template <typename T>
+    void data(const T* ptr, size_t items) {
+        if (items == num_elements) {
+            sub_data(0, ptr, items);
+        } else {
+            element_size = sizeof(T);
+            num_elements = items;
+
+            const auto s = this->get_scoped();
+            glBufferData(type, size_in_bytes(), ptr, mode);
+        }
+    }
+
+    template <typename T>
+    void data(const T& t) {
+        data(t.data(), t.size());
+    }
+
+    size_t size() const {
+        return num_elements;
+    }
+
+    size_t size_in_bytes() const {
+        return element_size * num_elements;
+    }
+
+    size_t get_element_size() const {
+        return element_size;
+    }
+
+private:
     void do_bind(GLuint index) const override {
         glBindBuffer(type, index);
     }
 
-    void clear() {
-        auto s = get_scoped();
-        elements = 0;
-        glBufferData(type, elements, nullptr, mode);
-    }
-
-    template <typename T>
-    void data(const std::vector<T>& t) {
-        auto s = get_scoped();
-        auto in_element = sizeof(T);
-        auto in_elements = t.size();
-        auto in_buffer_size = in_element * in_elements;
-        if (in_buffer_size != buffer_size()) {
-            element = in_element;
-            elements = in_elements;
-            glBufferData(type, buffer_size(), t.data(), mode);
-        } else {
-            glBufferSubData(type, 0, buffer_size(), t.data());
-        }
-    }
-
-    size_t size() const {
-        return elements;
-    }
-
-    size_t element_size() const {
-        return element;
-    }
-
-    size_t buffer_size() const {
-        return size() * element_size();
-    }
-
-private:
-    size_t element{0};
-    size_t elements{0};
+    size_t element_size{0};
+    size_t num_elements{0};
 };
 
-using StaticVBO = BufferObject<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
-using StaticIBO = BufferObject<GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW>;
-using DynamicVBO = BufferObject<GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
-using DynamicIBO = BufferObject<GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
+using static_vbo = buffer_object<GL_ARRAY_BUFFER, GL_STATIC_DRAW>;
+using static_ibo = buffer_object<GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW>;
+using dynamic_vbo = buffer_object<GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
+using dynamic_ibo = buffer_object<GL_ELEMENT_ARRAY_BUFFER, GL_DYNAMIC_DRAW>;
 
 }  // namespace mglu

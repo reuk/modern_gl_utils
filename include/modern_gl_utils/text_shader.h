@@ -1,20 +1,22 @@
 #pragma once
 
-#include "shader_program.h"
+#include "program.h"
 #include "texture.h"
 
 #include "glm/glm.hpp"
 
 namespace mglu {
 
-class TextShader : public ShaderProgram {
+class text_shader final {
 public:
-    TextShader();
+    text_shader();
     void set_tex(GLint i) const;
 
 private:
-    static const std::string vertex_shader;
-    static const std::string fragment_shader;
+    static const char* vertex_shader;
+    static const char* fragment_shader;
+
+    program program;
 };
 
 }  // namespace mglu
