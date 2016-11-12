@@ -13,11 +13,11 @@ public:
     drawable& operator=(drawable&&) noexcept = default;
     virtual ~drawable() noexcept = default;
 
-    void draw(const glm::mat4& modelview_matrix) const;
+    void draw(const glm::mat4& model_matrix) const;
 
 private:
-    virtual void do_draw(const glm::mat4& modelview_matrix) const = 0;
-    virtual glm::mat4 get_local_modelview_matrix() const = 0;
+    virtual void do_draw(const glm::mat4& model_matrix) const = 0;
+    virtual glm::mat4 get_local_model_matrix() const = 0;
 };
 
 }  // namespace mglu
